@@ -151,9 +151,22 @@ Custom colors and animations are defined in `tailwind.config.js`:
 
 ## 🚀 Deployment
 
-The website is ready for deployment on:
+### Netlify Deployment
+
+This project is configured for easy deployment to Netlify:
+
+1. **Push to GitHub**: Ensure your code is pushed to GitHub
+2. **Sign up/login to Netlify**: Visit [netlify.com](https://netlify.com)
+3. **Import project**: Click "New site from Git" and select your GitHub repository
+4. **Configure build settings**:
+   - Build command: `npm run build`
+   - Publish directory: `.next`
+5. **Deploy**: Click "Deploy site"
+
+The `netlify.toml` file in the repository root handles all necessary configuration.
+
+The website is also ready for deployment on:
 - **Vercel** (recommended for Next.js)
-- **Netlify**
 - **AWS Amplify**
 - **Traditional hosting** with static export
 
