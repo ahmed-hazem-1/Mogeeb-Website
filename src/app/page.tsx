@@ -1,11 +1,13 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import Navbar from '@/components/Navbar'
 import HeroSection from '@/components/HeroSection'
 import FeaturesSection from '@/components/FeaturesSection'
 import ChatbotDemo from '@/components/ChatbotDemo'
-import PricingSection from '@/components/PricingSection'
-import FAQSection from '@/components/FAQSection'
+// Use dynamic imports for larger components to improve performance
+const PricingSection = dynamic(() => import('@/components/PricingSection'))
+const FAQSection = dynamic(() => import('@/components/FAQSection'))
 import Footer from '@/components/Footer'
 
 export default function Home() {

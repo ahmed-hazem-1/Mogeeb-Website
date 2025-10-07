@@ -2,8 +2,7 @@
 const nextConfig = {
   // App Router is now stable in Next.js 14, no experimental flags needed
   
-  // Add output configuration for Netlify
-  output: 'standalone',
+  // Remove output: 'standalone' as it can cause issues with Netlify's Next.js plugin
   
   // Enable image optimization
   images: {
@@ -18,6 +17,12 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
+  
+  // Add trailing slash for better compatibility
+  trailingSlash: true,
+  
+  // Needed for Netlify
+  target: 'serverless'
 }
 
 module.exports = nextConfig

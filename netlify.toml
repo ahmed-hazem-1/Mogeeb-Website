@@ -3,7 +3,17 @@
   publish = ".next"
 
 [build.environment]
-  NETLIFY_NEXT_PLUGIN_SKIP = "true"
+  # Do not skip the Netlify Next.js plugin, we need it for proper routing
+  NETLIFY_NEXT_PLUGIN_SKIP = "false"
+  # Add this for debugging if needed
+  NEXT_DEBUG = "true"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+
+# Necessary redirects for Next.js client-side routing
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/next_render"
+  status = 200
+  force = true
