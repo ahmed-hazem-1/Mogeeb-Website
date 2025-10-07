@@ -4,9 +4,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Home } from 'lucide-react'
 
-export default function NotFound() {
-  // Static export doesn't need path logging
-
+export default function Custom404() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-brand-teal to-brand-teal/80 text-white p-4">
       <div className="max-w-3xl w-full text-center">

@@ -1,19 +1,12 @@
 [build]
   command = "npm run build"
-  publish = ".next"
+  publish = "out"
 
-[build.environment]
-  # Do not skip the Netlify Next.js plugin, we need it for proper routing
-  NETLIFY_NEXT_PLUGIN_SKIP = "false"
-  # Add this for debugging if needed
-  NEXT_DEBUG = "true"
+# We're using the static export approach, so we don't need the Next.js plugin
+# Remove the environment variables that were causing conflicts
 
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
-
-# Necessary redirects for Next.js client-side routing
+# Handle client-side routing for Next.js
 [[redirects]]
   from = "/*"
-  to = "/.netlify/functions/next_render"
+  to = "/index.html"
   status = 200
-  force = true
