@@ -6,28 +6,28 @@ import { Plus, Minus } from 'lucide-react'
 
 const faqs = [
   {
-    question: 'What makes Mogeeb.ai different from other chatbot platforms?',
-    answer: 'Mogeeb.ai specializes in creating smart chatbots for different purposes using advanced LLM technology. We focus specifically on Arabic language processing with deep understanding of cultural context and MENA region business needs.'
+    question: 'إيه اللي يخلي مُجيب مختلف عن أي بوت تاني؟',
+    answer: 'مُجيب مخصوص للمطاعم والكافيهات المصرية. مش زي البوتات العادية اللي بتقول جمل جاهزة، مُجيب بيفهم اللهجة المصرية الحقيقية ويقدر ياخد أوردرات معقدة. كمان بيديك تقارير عن شغلك وأكتر الأصناف مبيعاً.'
   },
   {
-    question: 'How accurate is the Arabic language processing?',
-    answer: 'Our smart chatbots achieve 95% accuracy rates using advanced Large Language Models and custom Arabic training. We continuously improve our algorithms to provide the best conversational experience for Arabic-speaking users.'
+    question: 'مُجيب بيفهم المصري إزاي؟',
+    answer: 'مُجيب متدرب على اللهجة المصرية الحقيقية. لو العميل قال "عايز كيلو كفتة وشوية رز" هيفهمها. لو قال "إيه أرخص حاجة عندكم؟" برضه هيرد صح. حتى لو كتب بأخطاء إملائية أو اختصارات، هيفهمه.'
   },
   {
-    question: 'Can Mogeeb.ai integrate with existing business systems?',
-    answer: 'Yes! Mogeeb.ai offers seamless integration with popular platforms through our n8n workflow automation. We support APIs, webhooks, social media platforms, and custom integrations to fit into your existing business infrastructure.'
+    question: 'مُجيب هيشتغل مع الواتساب والتليجرام؟',
+    answer: 'أكيد! مُجيب بيشتغل على الواتساب والتليجرام وحتى صفحة الفيسبوك. العميل يقدر يكلمك على أي منصة والبوت هيرد عليه فوراً ويسجل الأوردر في نفس المكان.'
   },
   {
-    question: 'What kind of support do you provide for businesses?',
-    answer: 'We provide dedicated support in both Arabic and English, with understanding of local business practices and cultural context. Our support includes technical assistance, chatbot optimization, and ongoing consultation for MENA market success.'
+    question: 'لو احتجت مساعدة، هتساعدوني إزاي؟',
+    answer: 'إحنا معاك من البداية للنهاية. هنساعدك تركب البوت، نحط منيو مطعمك، ونعلمك إزاي تشوف التقارير. ولو حصلت أي مشكلة، تقدر تكلمنا على الواتساب أو التليفون وهنحلهالك فوراً.'
   },
   {
-    question: 'Is my data secure with Mogeeb.ai?',
-    answer: 'Absolutely. We employ enterprise-grade security with end-to-end encryption and robust data protection measures. Your conversations and data are processed securely on cloud infrastructure with 99.9% uptime guarantee.'
+    question: 'بيانات مطعمي والعملاء آمنة؟',
+    answer: 'طبعاً! بيانات مطعمك والعملاء محمية بأقوى وسائل الحماية. مفيش حد يقدر يشوف أوردراتك أو أرقام عملائك غيرك. وكل حاجة متشفرة ومحفوظة بطريقة آمنة تماماً.'
   },
   {
-    question: 'How quickly can I implement Mogeeb.ai chatbots?',
-    answer: 'Implementation typically takes 1-3 days for basic chatbot setup and 1-2 weeks for custom configurations. Our team provides hands-on support throughout the process, ensuring smooth integration and immediate value delivery.'
+    question: 'محتاج وقت قد إيه عشان مُجيب يبدأ يشتغل؟',
+    answer: 'في خلال ساعات قليلة بس! هنركب مُجيب، ندخل منيو مطعمك، ونخليه جاهز للشغل. مش محتاج تتعلم حاجات معقدة أو تركب برامج. بمجرد ما نخلص، العملاء يقدروا يطلبوا منك على طول.'
   }
 ]
 
@@ -56,17 +56,18 @@ export default function FAQSection() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            Frequently Asked{' '}
-            <span className="gradient-text">Questions</span>
+            أسئلة{' '}
+            <span className="gradient-text">شائعة</span>
           </motion.h2>
           <motion.p 
-            className="text-xl text-gray-600"
+            className="text-xl text-gray-600 arabic-text"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
+            style={{ fontFamily: 'Cairo, system-ui, sans-serif', lineHeight: '2.2', marginBottom: '1.5rem' }}
           >
-            Find answers to common questions about our Arabic AI solutions and services
+            أجوبة على أهم الأسئلة اللي بيسألها أصحاب المطاعم والكافيهات عن مُجيب
           </motion.p>
         </motion.div>
 
@@ -136,15 +137,18 @@ export default function FAQSection() {
           viewport={{ once: true }}
         >
           <p className="text-lg text-gray-600 mb-6">
-            Still have questions? Our Arabic AI experts are here to help.
+            لسه عندك سؤال تاني؟ كلمنا وهنرد عليك فوراً.
           </p>
-          <motion.button 
-            className="btn-primary text-lg px-8 py-4"
+          <motion.a
+            href="https://wa.me/201275012177"
+            target="_blank"
+            rel="noopener noreferrer" 
+            className="btn-primary text-lg px-8 py-4 inline-block"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Contact Our Experts
-          </motion.button>
+            كلمنا على الواتساب
+          </motion.a>
         </motion.div>
       </div>
     </section>

@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Font loading for Arabic and English */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap');
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 255, 255, 255;
@@ -15,8 +20,34 @@ html {
 body {
   color: rgb(var(--foreground-rgb));
   background: rgb(var(--background-start-rgb));
+  font-family: 'Cairo', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Tahoma, Arial, sans-serif;
+  line-height: 2.2;
+  font-feature-settings: 'liga' 1, 'kern' 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Arabic text improvements */
+.arabic-text {
+  font-family: 'Cairo', 'Tajawal', Tahoma, Arial, sans-serif;
+  line-height: 2.4;
+  letter-spacing: 0.025em;
+  text-rendering: optimizeLegibility;
+  margin-bottom: 1.5rem;
+}
+
+/* English text */
+.english-text {
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.6;
+}
+
+/* Improved readability for Arabic headers */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cairo', 'Tajawal', system-ui, sans-serif;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.025em;
 }
 
 @layer components {
@@ -71,6 +102,45 @@ body {
   .glass-effect {
     @apply bg-white/80 backdrop-blur-sm border border-white/20;
   }
+
+  /* Special styling for Arabic brand name */
+  .brand-arabic {
+    font-family: 'Cairo', 'Tajawal', system-ui, sans-serif;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Enhanced buttons for Arabic text */
+  .btn-arabic {
+    font-family: 'Cairo', system-ui, sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+  }
+}
+
+/* Better text rendering for Arabic */
+* {
+  font-feature-settings: 'liga' 1, 'kern' 1, 'calt' 1;
+  text-rendering: optimizeLegibility;
+}
+
+/* Smooth animations for text */
+.text-animate {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Enhanced readability */
+p, span, div {
+  font-variant-ligatures: common-ligatures;
+  font-kerning: normal;
+}
+
+/* Special styling for Arabic numbers in stats */
+.arabic-number {
+  font-family: 'Cairo', system-ui, monospace;
+  font-weight: 800;
+  font-feature-settings: 'tnum' 1;
 }
 
 /* Custom scrollbar */

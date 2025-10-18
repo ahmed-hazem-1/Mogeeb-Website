@@ -11,27 +11,27 @@ export default function StatsSection() {
 
   const technologies = [
     {
-      name: 'Available 24/7',
-      description: 'Round-the-clock chatbot availability',
-      icon: Clock,
+      name: '50+ مطعم',
+      description: 'بيستخدموا مُجيب دلوقتي ووفروا وقت وفلوس',
+      icon: Building,
       color: 'bg-brand-teal'
     },
     {
-      name: '95% Accuracy',
-      description: 'High precision in Arabic language processing',
+      name: '0 أخطاء',
+      description: 'في تسجيل الأوردرات لأن البوت مبيتعبش',
       icon: Target,
       color: 'bg-brand-orange'
     },
     {
-      name: 'Fast Response',
-      description: 'Sub-second response times',
+      name: '70% توفير',
+      description: 'في الوقت المطلوب للرد على العملاء',
       icon: Zap,
       color: 'bg-blue-500'
     },
     {
-      name: '99.9% Uptime',
-      description: 'Reliable cloud infrastructure',
-      icon: Cloud,
+      name: '24/7 شغال',
+      description: 'حتى لو إنت مش موجود، العملاء هيلاقوا حد يرد عليهم',
+      icon: Clock,
       color: 'bg-yellow-500'
     }
   ]
@@ -109,13 +109,13 @@ export default function StatsSection() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-            Our{' '}
+            النتايج{' '}
             <span className="text-brand-orange">
-              Performance
+              بتتكلم
             </span>
           </h2>
           <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-            Technical specifications that demonstrate our commitment to reliable and efficient chatbot solutions.
+            أرقام حقيقية من المطاعم اللي بدأت تستخدم مُجيب وشافت الفرق بنفسها في شغلها.
           </p>
         </motion.div>
 
@@ -131,15 +131,14 @@ export default function StatsSection() {
               <div className="w-12 h-12 bg-brand-teal rounded-xl flex items-center justify-center mr-4">
                 <span className="text-white text-xl">🎯</span>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900">Our Mission</h3>
+              <h3 className="text-2xl font-bold text-gray-900">هدفنا</h3>
             </div>
             <p className="text-gray-600 leading-relaxed mb-4">
-              To democratize access to advanced Arabic AI technology, enabling small and medium 
-              enterprises across the MENA region to leverage the power of artificial intelligence 
-              for growth and innovation.
+              نساعد أصحاب المطاعم والكافيهات يركزوا في اللي بيحبوه - الطبخ وخدمة العملاء. 
+              ونسيب للتكنولوجيا تتعامل مع الحاجات المتكررة والمملة زي أخذ الأوردرات والرد على أسئلة الأسعار.
             </p>
-            <p className="text-teal font-medium">
-              مهمتنا هي جعل تكنولوجيا الذكاء الاصطناعي العربية المتقدمة في متناول الجميع
+            <p className="text-brand-teal font-medium">
+              "خلي التكنولوجيا تشتغل عشانك، مش إنت تشتغل عشان التكنولوجيا"
             </p>
           </motion.div>
 
@@ -153,15 +152,14 @@ export default function StatsSection() {
               <div className="w-12 h-12 bg-brand-orange rounded-xl flex items-center justify-center mr-4">
                 <span className="text-white text-xl">👁️</span>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900">Our Vision</h3>
+              <h3 className="text-2xl font-bold text-gray-900">رؤيتنا</h3>
             </div>
             <p className="text-gray-600 leading-relaxed mb-4">
-              To become the leading Arabic AI platform globally, setting the standard for 
-              natural language processing in Arabic and fostering innovation across all 
-              industries in the region.
+              نشوف مصر كلها مليانة مطاعم وكافيهات بتشتغل بذكاء وكفاءة، العملاء مبسوطين، وأصحاب المحلات مركزين في تطوير شغلهم مش الرد على رسايل. 
+              كل مطعم صغير يبقى عنده نفس الإمكانيات اللي في المطاعم الكبيرة.
             </p>
-            <p className="text-orange font-medium">
-              رؤيتنا أن نصبح المنصة الرائدة عالمياً للذكاء الاصطناعي باللغة العربية
+            <p className="text-brand-orange font-medium">
+              "مُجيب في كل مطعم.. راحة لكل صاحب محل.. خدمة أحسن لكل عميل"
             </p>
           </motion.div>
         </div>

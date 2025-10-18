@@ -15,7 +15,7 @@ export default function ChatbotDemo() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: 'مرحباً! أنا موجيب، مساعدك الذكي باللغة العربية. كيف يمكنني مساعدتك اليوم؟',
+      text: 'أهلاً وسهلاً في مطعم الأصالة! أنا مُجيب، هرد على كل استفساراتك وآخذ أوردرك. إيه اللي تحب تطلبه النهاردة؟',
       isUser: false,
       timestamp: new Date()
     }
@@ -26,19 +26,19 @@ export default function ChatbotDemo() {
   const messagesContainerRef = useRef<HTMLDivElement>(null)
 
   const demoResponses = [
-    'شكراً لك على سؤالك! يمكنني مساعدتك في العديد من المجالات باللغة العربية.',
-    'أنا هنا لمساعدتك! ما هو الموضوع الذي تود مناقشته؟',
-    'بالطبع! يسعدني أن أساعدك. هل لديك أي استفسارات أخرى؟',
-    'موجيب يستطيع فهم اللغة العربية بشكل متقدم. كيف يمكنني خدمتك؟',
-    'رائع! أحب التحدث معك. ما هي اهتماماتك الرئيسية؟',
-    'يمكنني مساعدتك في الترجمة، التلخيص، والإجابة على الأسئلة باللغة العربية.',
-    'أستطيع فهم السياق والمشاعر في النصوص العربية بدقة عالية.'
+    'ممتاز! كده أوردرك اتسجل: كيلو كفتة + شوية رز أبيض. محتاج عنوانك للتوصيل وهيوصلك في خلال 30 دقيقة.',
+    'الملوخية متوفرة النهاردة طازة! الطبق بـ 45 جنيه مع الفراخ، وبـ 35 جنيه لوحدها. تحب تطلب؟',
+    'أسعار المشويات كلها: الكباب بـ 25 جنيه، الكفتة بـ 20 جنيه، الطاووق بـ 30 جنيه. كله طازة ومشوي على الفحم.',
+    'التوصيل لحد 5 كيلو مجاني، وأكتر من كده بـ 10 جنيه. ومتاح من 11 الصبح لحد 12 بالليل.',
+    'الفراخ المحمرة متوفرة والطبق بـ 35 جنيه مع الرز والسلطة. محتاج كام طبق؟',
+    'عفواً، البامية خلصت النهاردة بس هيبقى متوفر بكرة إن شاء الله. إيه رأيك في الملوخية بدالها؟',
+    'أوردرك خلاص محضر وفي الطريق ليك! رقم الأوردر: #1247. ممكن تتابع الأوردر على الواتساب.'
   ]
 
   const quickQuestions = [
-    'ما هي خدماتكم؟',
-    'كيف تعمل تقنية الذكاء الاصطناعي؟',
-    'هل تدعمون اللهجات المحلية؟'
+    'عايز كيلو كفتة وشوية رز',
+    'الملوخية متوفرة النهاردة؟',
+    'أسعار المشويات إيه؟'
   ]
 
   const scrollToBottom = () => {
@@ -116,19 +116,21 @@ export default function ChatbotDemo() {
               transition={{ duration: 0.8, delay: 0.3 }}
               viewport={{ once: true }}
             >
-              Experience the Power of{' '}
-              <span className="gradient-text">Arabic AI</span>
+              اتكلم مع{' '}
+              <span className="gradient-text">مُجيب</span> دلوقتي
             </motion.h2>
 
             <motion.p 
-              className="text-xl text-gray-600 leading-relaxed"
+              className="text-xl text-gray-600 arabic-text"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
               viewport={{ once: true }}
+              style={{ fontFamily: 'Cairo, system-ui, sans-serif', lineHeight: '2.4', marginBottom: '2rem' }}
             >
-              Try our advanced Arabic AI chatbot powered by state-of-the-art NLP models. 
-              Experience natural conversations in Arabic with human-like understanding and responses.
+              جرب بنفسك إزاي مُجيب بيرد على العملاء ويسجل الأوردرات. 
+              <br /><br />
+              اكتب أي حاجة عادية كأنك عميل عايز يطلب أكل، وشوف إزاي هيفهمك ويساعدك.
             </motion.p>
 
             <motion.div
@@ -138,7 +140,7 @@ export default function ChatbotDemo() {
               transition={{ duration: 0.8, delay: 0.5 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-lg font-semibold text-gray-900">Try these questions:</h3>
+              <h3 className="text-lg font-semibold text-gray-900">جرب الأمثلة دي:</h3>
               <div className="flex flex-wrap gap-3">
                 {quickQuestions.map((question, index) => (
                   <motion.button
@@ -197,12 +199,12 @@ export default function ChatbotDemo() {
                     <Bot className="w-7 h-7 text-brand-orange" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-white font-bold text-lg">موجيب AI Assistant</h3>
+                    <h3 className="text-white font-bold text-lg" style={{ fontFamily: 'Inter, system-ui, sans-serif', margin: '1rem' }}>مجيب AI Assistant</h3>
                     <p className="text-white/90 text-sm">مساعدك الذكي باللغة العربية</p>
                   </div>
                   <div className="flex items-center space-x-2">
                     <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-                    <span className="text-white text-sm font-medium">Online</span>
+                    <span className="text-white text-sm font-medium"style={{ fontFamily: 'Inter, system-ui, sans-serif', margin: '1rem' }}>Online</span>
                   </div>
                 </div>
               </div>
@@ -220,17 +222,17 @@ export default function ChatbotDemo() {
                     <div className={`flex items-start space-x-3 max-w-[80%] ${message.isUser ? 'flex-row-reverse space-x-reverse' : ''}`}>
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center shadow-lg ${
                         message.isUser ? 'gradient-bg' : 'bg-white border-2 border-brand-orange'
-                      }`}>
+                      }`} style={{ fontFamily: 'Inter, system-ui, sans-serif', margin: '1rem' }}>
                         {message.isUser ? 
-                          <User className="w-4 h-4 text-white" /> : 
-                          <Bot className="w-4 h-4 text-brand-orange" />
+                          <User className="w-5 h-5 text-white"  /> : 
+                          <Bot className="w-12 h-5 text-brand-orange"  />
                         }
                       </div>
                       <div className={`p-4 rounded-2xl shadow-sm ${
                         message.isUser 
                           ? 'gradient-bg text-white' 
                           : 'bg-white text-gray-800 border border-gray-200'
-                      }`}>
+                      }`} style={{ fontFamily: 'Inter, system-ui, sans-serif', margin: '1rem' }}>
                         <p className="text-sm leading-relaxed" dir={message.isUser ? 'ltr' : 'rtl'}>
                           {message.text}
                         </p>
@@ -280,8 +282,9 @@ export default function ChatbotDemo() {
                     className="gradient-bg p-4 rounded-xl text-white disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transition-all duration-300"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
+                    style={{margin: '0.3rem'}}
                   >
-                    <Send className="w-5 h-5" />
+                    <Send className="w-10 h-5"  />
                   </motion.button>
                 </div>
               </div>

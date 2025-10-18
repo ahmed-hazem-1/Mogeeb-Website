@@ -5,56 +5,56 @@ import { Check, Star, Zap, Crown } from 'lucide-react'
 
 const plans = [
   {
-    name: 'Starter',
-    price: '$49',
-    period: '/month',
-    description: 'Perfect for small businesses starting their chatbot journey',
+    name: 'الكافيه الصغير',
+    price: '299',
+    period: ' جنيه/شهر',
+    description: 'مثالي للكافيهات والمحلات الصغيرة اللي بدايتها مع مُجيب',
     features: [
-      'Smart Arabic Chatbot',
-      'Basic conversation flows',
-      '1,000 messages/month',
-      'Email support',
-      'Basic analytics',
-      'Social media integration'
+      'البوت بيرد على الرسايل',
+      'ياخد أوردرات بسيطة',
+      'لحد 500 رسالة في الشهر',
+      'منيو لحد 20 صنف',
+      'تقارير أساسية',
+      'شغال على الواتساب والتليجرام'
     ],
     popular: false,
     icon: Zap,
     gradient: 'from-blue-500 to-cyan-500'
   },
   {
-    name: 'Professional',
-    price: '$149',
-    period: '/month',
-    description: 'Advanced chatbot solutions for growing businesses',
+    name: 'المطعم المتوسط',
+    price: '799',
+    period: ' جنيه/شهر',
+    description: 'الحل الأمثل للمطاعم المتوسطة اللي عايزة تشتغل بشكل احترافي',
     features: [
-      'Everything in Starter',
-      'Advanced LLM integration',
-      '10,000 messages/month',
-      'n8n workflow automation',
-      'Priority support',
-      'Custom conversation training',
-      'Multi-platform deployment',
-      'Advanced analytics'
+      'كل حاجة في الباقة الصغيرة',
+      'فهم متقدم للهجة المصرية',
+      'لحد 2000 رسالة في الشهر',
+      'منيو لحد 50 صنف',
+      'تقارير مفصلة عن المبيعات',
+      'ربط مع أنظمة التوصيل',
+      'دعم فني سريع',
+      'تحليلات أوقات الذروة'
     ],
     popular: true,
     icon: Star,
     gradient: 'from-orange-500 to-red-500'
   },
   {
-    name: 'Enterprise',
-    price: 'Custom',
+    name: 'سلسلة الفروع',
+    price: 'حسب المطلوب',
     period: '',
-    description: 'Tailored chatbot solutions for large organizations',
+    description: 'حلول مخصصة لسلاسل المطاعم والشركات الكبيرة',
     features: [
-      'Everything in Professional',
-      'Unlimited messages',
-      'Custom LLM models',
-      'Dedicated account manager',
-      '24/7 phone support',
-      'On-premise deployment',
-      'Advanced security',
-      'Custom integrations',
-      'SLA guarantees'
+      'كل حاجة في الباقة المتوسطة',
+      'رسايل مفتوحة',
+      'بوت مخصوص لكل فرع',
+      'مدير حساب مخصوص',
+      'دعم فني 24/7',
+      'ربط مع أنظمة المحاسبة',
+      'حماية متقدمة للبيانات',
+      'ربط مع التطبيقات الخاصة',
+      'ضمان جودة الخدمة'
     ],
     popular: false,
     icon: Crown,
@@ -81,8 +81,8 @@ export default function PricingSection() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            Choose Your{' '}
-            <span className="gradient-text">Smart Chatbot</span> Plan
+            اختار الباقة{' '}
+            <span className="gradient-text">اللي تناسبك</span>
           </motion.h2>
           <motion.p 
             className="text-xl text-gray-600 max-w-3xl mx-auto"
@@ -91,7 +91,7 @@ export default function PricingSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            Select the perfect smart chatbot package for your business needs and start automating your customer interactions today.
+            مفيش التزام طويل المدى. ابدأ بالباقة اللي تناسب حجم شغلك دلوقتي، وتقدر تغيرها في أي وقت لما شغلك يكبر.
           </motion.p>
         </motion.div>
 

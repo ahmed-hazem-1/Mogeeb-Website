@@ -18,9 +18,10 @@ export default function HeroSection() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
+            style={{ marginTop: '1rem' }}
           >
             <Sparkles className="w-5 h-5 text-brand-orange mr-3" />
-            <span className="text-brand-orange font-semibold text-sm">2025 • Smart Chatbots with LLMs</span>
+            <span className="text-brand-orange font-semibold text-sm">خصيصاً للمطاعم والكافيهات المصرية</span>
           </motion.div>
 
           {/* Main Heading */}
@@ -30,19 +31,21 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            <h1 className="text-6xl lg:text-7xl font-bold text-gray-900 leading-tight">
-              Smart Chatbots{' '}
-              <span className="block">
-                <span className="gradient-text">for Every Purpose</span>
+            <h1 className="text-6xl lg:text-7xl font-bold text-gray-900 arabic-text" style={{ fontFamily: 'Cairo, Tajawal, system-ui, sans-serif', lineHeight: '1.6', marginBottom: '2rem' }}>
+              مساعدك الذكي{' '}
+              <span className="block" style={{ marginTop: '1rem' }}>
+                <span className="gradient-text">وصل أخيراً</span>
               </span>
-              <span className="block text-5xl lg:text-6xl">
-                Powered by LLMs
+              <span className="block text-4xl lg:text-5xl font-semibold" style={{ marginTop: '1.5rem', lineHeight: '1.8' }}>
+                حوّل رسايل العملاء لأوردرات.. أوتوماتيك
               </span>
             </h1>
             
-            <p className="text-xl lg:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-              Creating smart chatbots for different purposes using advanced LLM technology.{' '}
-              <span className="text-brand-orange font-semibold">Reduce costs and save time</span> for SMEs and social media pages with intelligent automation.
+            <p className="text-xl lg:text-2xl text-gray-600 max-w-4xl mx-auto arabic-text" style={{ fontFamily: 'Cairo, system-ui, sans-serif', lineHeight: '2.5', marginBottom: '2rem' }}>
+              ماتشيلش هم الأوردرات تاني. <span className="text-brand-orange font-semibold">"مُجيب"</span> هيرد على العملاء ويسجل الأوردرات بدالك، 
+              حتى لو كانوا بيتكلموا باللهجة المصرية العادية.
+              <br /><br />
+              <span className="text-brand-teal font-semibold">ركز في خدمة زباينك اللي في المحل، وسيب مُجيب يهتم بأوردرات التليجرام والواتساب.</span>
             </p>
           </motion.div>
 
@@ -55,21 +58,22 @@ export default function HeroSection() {
           >
             <motion.button 
               onClick={scrollToDemo}
-              className="btn-primary text-lg px-8 py-4 group"
+              className="btn-primary btn-arabic text-lg px-8 py-4 group"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              style={{ fontFamily: 'Cairo, system-ui, sans-serif' }}
             >
               <Play className="w-6 h-6 mr-3" />
-              Try Live Demo
+              جرب مُجيب دلوقتي
               <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform" />
             </motion.button>
             
             <motion.button 
-              className="btn-outline text-lg px-8 py-4"
+              className="btn-outline btn-arabic text-lg px-8 py-4"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Learn More
+              اعرف إزاي يشتغل
             </motion.button>
           </motion.div>
 
@@ -81,10 +85,10 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.7 }}
           >
             {[
-              { number: '24/7', label: 'Available' },
-              { number: '95%', label: 'Accuracy' },
-              { number: '<1s', label: 'Response' },
-              { number: '99.9%', label: 'Uptime' }
+              { number: '24/7', label: 'شغال طول الوقت' },
+              { number: '0', label: 'أخطاء في الأوردرات' },
+              { number: 'فوري', label: 'رد على العميل' },
+              { number: '100%', label: 'بيفهم المصري' }
             ].map((stat, index) => (
               <motion.div
                 key={index}
@@ -93,8 +97,8 @@ export default function HeroSection() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
               >
-                <div className="text-4xl font-bold gradient-text">{stat.number}</div>
-                <div className="text-gray-600 font-medium">{stat.label}</div>
+                <div className="text-4xl font-bold gradient-text arabic-number" style={{ fontFamily: 'Cairo, system-ui, sans-serif' }}>{stat.number}</div>
+                <div className="text-gray-600 font-medium arabic-text" style={{ fontFamily: 'Cairo, system-ui, sans-serif' }}>{stat.label}</div>
               </motion.div>
             ))}
           </motion.div>

@@ -10,6 +10,9 @@ const nextConfig = {
     unoptimized: true,
   },
   
+  // Optimize font loading
+  optimizeFonts: true,
+  
   // Static export works best with trailing slashes
   trailingSlash: true,
   

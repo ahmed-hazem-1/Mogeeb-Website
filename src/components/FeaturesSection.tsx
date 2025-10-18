@@ -6,38 +6,38 @@ import { Bot, MessageSquare, Zap, Globe, Shield, Cpu } from 'lucide-react'
 const features = [
   {
     icon: Bot,
-    title: 'Smart Arabic Chatbots',
-    description: 'Intelligent conversational bots for Arabic users, built with advanced LLMs. Multi-platform support for websites, social media, and mobile apps with intelligent lead capture.',
+    title: 'أوردرات من غير أخطاء',
+    description: 'البوت مش بينسى ومبيتلغبطش. الأوردر بيتسجل بدقة في قاعدة بيانات منظمة، وبيوصلك مظبوط مع كل التفاصيل (الاسم، العنوان، رقم التليفون، والطلب).',
     color: 'bg-blue-500'
   },
   {
     icon: MessageSquare,
-    title: 'Social Media Integration',
-    description: 'Seamless integration with social media platforms to automate customer interactions, respond to comments, and manage conversations across multiple channels.',
+    title: 'بيفهم المصري زي ما هو',
+    description: 'العميل هيطلب باللغة العامية والطبيعية كأنه بيكلم بني آدم، والبوت هيفهمه ويسجل الأوردر. "عايز كيلو كفتة وشوية رز" - هيفهمها كده!',
     color: 'bg-emerald-500'
   },
   {
     icon: Zap,
-    title: 'AI-Driven Automations',
-    description: 'Custom workflow automation solutions with n8n integration that streamline business operations, reduce manual work, and eliminate repetitive tasks.',
+    title: 'تقارير تعرفك شغلك',
+    description: 'لأول مرة، هتعرف بيانات شغلك الحقيقية. إيه أكتر صنف مطلوب؟ إيه أوقات الذروة عندك؟ مين أهم عملائك؟ كل ده في تقارير واضحة.',
     color: 'bg-orange-500'
   },
   {
     icon: Globe,
-    title: 'MENA Region Focus',
-    description: 'Specialized solutions designed specifically for Middle East and North Africa markets, understanding local business needs and cultural context.',
+    title: 'موظفين مركزين في شغلهم',
+    description: 'حرر الموظفين من الرد على الرسايل والمكالمات المتكررة عشان يركزوا في خدمة العملاء الموجودين في المكان وتحسين جودة الطعام.',
     color: 'bg-purple-500'
   },
   {
     icon: Shield,
-    title: 'Enterprise Solutions',
-    description: 'Helping companies reduce time and costs through intelligent automation, streamlined workflows, and efficient customer service management.',
+    title: 'شغال حتى في وقت الذروة',
+    description: 'مهما كان الضغط كتير، البوت مش بيتعب ومش بيغلط. هيفضل ياخد أوردرات ويرد على الاستفسارات حتى لو كان عندك 50 عميل في نفس الوقت.',
     color: 'bg-indigo-500'
   },
   {
     icon: Cpu,
-    title: 'Real-time Intelligence',
-    description: 'Lightning-fast chatbot responses powered by cloud infrastructure, providing instant customer support and engagement across all platforms.',
+    title: 'مش محتاج خبرة تقنية',
+    description: 'مفيش تعقيد ولا برمجة. البوت بيتركب في دقايق، وتقدر تعدل في المنيو أو الأسعار بسهولة من غير ما تحتاج مطور أو خبير تقني.',
     color: 'bg-green-500'
   }
 ]
@@ -61,17 +61,18 @@ export default function FeaturesSection() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            AI-Powered Smart Chatbots for{' '}
-            <span className="gradient-text">Every Purpose</span>
+            ليه تختار{' '}
+            <span className="gradient-text">مُجيب</span>؟
           </motion.h2>
           <motion.p 
-            className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed"
+            className="text-xl text-gray-600 max-w-4xl mx-auto arabic-text"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
+            style={{ fontFamily: 'Cairo, system-ui, sans-serif', lineHeight: '2.4', marginBottom: '2rem' }}
           >
-            Our smart chatbot solutions help SMEs and enterprises reduce costs and save time through intelligent automation, social media integration, and custom workflow solutions.
+            مُجيب مش مجرد بوت عادي. ده مساعدك الذكي اللي هيوفر عليك ضغط الشغل اليدوي والوقت اللي بيضيع في الرد على رسايل متكررة، ويديك بيانات حقيقية عن شغلك لأول مرة.
           </motion.p>
         </motion.div>
 
@@ -97,10 +98,10 @@ export default function FeaturesSection() {
                 </motion.div>
 
                 {/* Content */}
-                <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-brand-orange transition-colors duration-300">
+                <h3 className="text-2xl font-bold text-gray-900 mb-6 group-hover:text-brand-orange transition-colors duration-300 arabic-text" style={{ fontFamily: 'Cairo, system-ui, sans-serif', lineHeight: '1.8' }}>
                   {feature.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-gray-600 arabic-text" style={{ fontFamily: 'Cairo, system-ui, sans-serif', lineHeight: '2.2' }}>
                   {feature.description}
                 </p>
 

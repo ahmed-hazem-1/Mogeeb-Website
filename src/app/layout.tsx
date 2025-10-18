@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
-import { inter } from './fonts'
+import { inter, cairo } from './fonts'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Mogeeb.ai - Leading AI Solutions for MENA SMEs',
-  description: 'Mogeeb.ai provides cutting-edge Arabic NLP and AI solutions, serving hundreds of thousands of users across the MENA region. Experience our AI Arabic chatbot and discover the future of AI for businesses.',
-  keywords: 'AI, Arabic NLP, chatbot, MENA, SME, artificial intelligence, Arabic language processing',
+  title: 'مُجيب - مساعدك الذكي للمطاعم والكافيهات',
+  description: 'مُجيب هو المساعد الذكي اللي هيخلي مطعمك أو كافيهك يشتغل أوتوماتيك. يرد على العملاء، ياخد الأوردرات، ويديك تقارير عن شغلك. بيفهم اللهجة المصرية ويشتغل 24/7 من غير أخطاء.',
+  keywords: 'مطاعم، كافيهات، أوردرات، مساعد ذكي، بوت، واتساب، تليجرام، ذكي اصطناعي، مصر',
 }
 
 export default function RootLayout({
@@ -14,8 +14,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="ar" dir="rtl">
+      <head>
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+      </head>
+      <body className={`${cairo.className} ${inter.className}`}>{children}</body>
     </html>
   )
 }

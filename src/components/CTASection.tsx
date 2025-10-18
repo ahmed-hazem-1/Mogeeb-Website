@@ -30,18 +30,19 @@ export default function CTASection() {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              Ready To Transform{' '}
-              <span className="block">Your Business?</span>
+              خلاص قررت؟{' '}
+              <span className="block">يلا نبدأ!</span>
             </motion.h2>
             
             <motion.p 
-              className="text-xl lg:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed"
+              className="text-xl lg:text-2xl text-white/90 max-w-3xl mx-auto arabic-text"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
+              style={{ fontFamily: 'Cairo, system-ui, sans-serif', lineHeight: '2.4', marginBottom: '2rem' }}
             >
-              Let's discuss how Arabic AI can revolutionize your operations and drive unprecedented growth for your company in the MENA region.
+              كلمنا دلوقتي ونشوف إزاي مُجيب ممكن يخلي مطعمك أو كافيهك يشتغل بكفاءة أكتر ومن غير صداع الأوردرات والرسايل.
             </motion.p>
           </motion.div>
 
@@ -53,23 +54,27 @@ export default function CTASection() {
             transition={{ duration: 0.8, delay: 0.4 }}
             viewport={{ once: true }}
           >
-            <motion.button 
+            <motion.a 
+              href="https://wa.me/201275012177"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-white text-brand-orange hover:bg-gray-100 font-bold py-4 px-8 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl flex items-center group"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Phone className="w-6 h-6 mr-3" />
-              Book A Call
+              <MessageCircle className="w-6 h-6 mr-3" />
+              كلمنا على الواتساب
               <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform" />
-            </motion.button>
+            </motion.a>
             
             <motion.button 
+              onClick={() => document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth' })}
               className="border-2 border-white text-white hover:bg-white hover:text-brand-orange font-bold py-4 px-8 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 flex items-center group"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <MessageCircle className="w-6 h-6 mr-3" />
-              Chat With Our Bot
+              <Phone className="w-6 h-6 mr-3" />
+              جرب مُجيب دلوقتي
             </motion.button>
           </motion.div>
 
@@ -82,10 +87,10 @@ export default function CTASection() {
             viewport={{ once: true }}
           >
             {[
-              { number: '600K+', label: 'Happy Users' },
-              { number: '15+', label: 'Countries Served' },
-              { number: '95%', label: 'Success Rate' },
-              { number: '24/7', label: 'Expert Support' }
+              { number: '50+', label: 'مطعم بيستخدم مُجيب' },
+              { number: '0', label: 'أخطاء في الأوردرات' },
+              { number: '70%', label: 'توفير في الوقت' },
+              { number: '24/7', label: 'شغال طول الوقت' }
             ].map((stat, index) => (
               <motion.div
                 key={index}

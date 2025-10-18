@@ -2,29 +2,30 @@
 
 import { motion } from 'framer-motion'
 import { Linkedin, MessageCircle, Mail } from 'lucide-react'
+import Image from 'next/image'
 
 export default function Footer() {
   const contactMethods = [
+    {
+      name: 'واتساب',
+      icon: MessageCircle,
+      href: 'https://wa.me/201275012177',
+      color: 'bg-green-600 hover:bg-green-700',
+  description: 'اتصل بنا فوراً وتكلم معانا'
+    },
     {
       name: 'LinkedIn',
       icon: Linkedin,
       href: 'https://linkedin.com/company/mogeeb-ai',
       color: 'bg-blue-600 hover:bg-blue-700',
-  description: 'Connect with us professionally'
+  description: 'تابعنا على لينكد إن'
     },
     {
-      name: 'WhatsApp',
-      icon: MessageCircle,
-      href: 'https://wa.me/201275012177',
-      color: 'bg-green-600 hover:bg-green-700',
-  description: 'Chat with us instantly'
-    },
-    {
-      name: 'Email',
+      name: 'الإيميل',
       icon: Mail,
       href: 'mailto:career.mogeeb.ai@gmail.com',
       color: 'bg-orange-600 hover:bg-orange-700',
-  description: 'Send us a message'
+  description: 'ابعتلنا رسالة'
     }
   ]
 
@@ -42,22 +43,22 @@ export default function Footer() {
           {/* Header */}
           <div className="mb-12">
             <motion.h2 
-              className="text-4xl lg:text-5xl font-bold text-white mb-4"
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              Contact Us
+              اتصل بنا
             </motion.h2>
             <motion.p 
-              className="text-xl text-gray-300 max-w-2xl mx-auto"
+              className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              Ready to transform your business with AI? Get in touch with us today.
+              جاهز تبدأ؟ كلمنا دلوقتي ونشوف إزاي مُجيب ممكن يساعد مطعمك أو كافيهك.
             </motion.p>
           </div>
 
@@ -85,11 +86,11 @@ export default function Footer() {
                       <IconComponent className="w-8 h-8 text-white" />
                     </motion.div>
                     
-                    <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-brand-orange transition-colors duration-300">
+                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 group-hover:text-brand-orange transition-colors duration-300">
                       {method.name}
                     </h3>
                     
-                    <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+                    <p className="text-sm sm:text-base text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
                       {method.description}
                     </p>
                     
@@ -125,18 +126,24 @@ export default function Footer() {
             className="border-t border-gray-800 pt-8"
           >
             <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-brand-orange rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">M</span>
+              <div className="flex items-center">
+                <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm border-2 border-white">
+                  <Image 
+                    src="/logo.svg"
+                    alt="Mogeeb.ai Logo"
+                    width={24}
+                    height={24}
+                    className="w-6 h-6 object-contain"
+                  />
                 </div>
-                <span className="text-2xl font-bold text-white">Mogeeb.ai</span>
+                <span className="text-xl sm:text-2xl font-bold text-white english-text" style={{ fontFamily: 'Inter, system-ui, sans-serif', margin: '1rem' }}>mogeeb.ai</span>
               </div>
               
-              <p className="text-gray-400 text-sm">
-                © 2024 Mogeeb.ai. All rights reserved.
+              <p className="text-xs sm:text-sm text-gray-400">
+                © 2025 Mogeeb.ai. All rights reserved.
               </p>
               
-              <div className="flex items-center space-x-2 text-sm text-gray-400">
+              <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-400">
                 <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
                 <span>Available 24/7</span>
               </div>
