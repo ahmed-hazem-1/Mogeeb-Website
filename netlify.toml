@@ -1,12 +1,14 @@
 [build]
   command = "npm run build"
   publish = "out"
-
-# We're using the static export approach, so we don't need the Next.js plugin
-# Remove the environment variables that were causing conflicts
+  functions = "netlify/functions"
 
 # Handle client-side routing for Next.js
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+# Function configuration
+[functions]
+  directory = "netlify/functions"

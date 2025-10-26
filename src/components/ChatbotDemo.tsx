@@ -57,57 +57,50 @@ export default function ChatbotDemo() {
     setInputText('')
     setIsTyping(true)
 
-    // Simulate typing delay for better UX
-    await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000))
-
     try {
-      // Check if we're in production (static export) or development
-      const isProduction = process.env.NODE_ENV === 'production'
+      // Use Netlify function for API calls (works in both dev and production)
+      const apiEndpoint = '/.netlify/functions/chat'
       
-      if (!isProduction) {
-        // Development mode - try to use API route
-        const response = await fetch('/api/chat', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            message: messageText,
-            timestamp: new Date().toISOString(),
-            userId: 'demo-user',
-            sessionId: `demo-${Date.now()}`
-          })
+      const response = await fetch(apiEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: messageText,
+          timestamp: new Date().toISOString(),
+          userId: 'demo-user',
+          sessionId: `demo-${Date.now()}`
         })
+      })
 
-        if (response.ok) {
-          const data = await response.json()
-          const botResponse: Message = {
-            id: messages.length + 2,
-            text: data.response || 'عذراً، لم أتمكن من فهم طلبك. حاول مرة أخرى.',
-            isUser: false,
-            timestamp: new Date()
-          }
-          setMessages(prev => [...prev, botResponse])
-          return
+      if (response.ok) {
+        const data = await response.json()
+        const botResponse: Message = {
+          id: messages.length + 2,
+          text: data.response || 'عذراً، لم أتمكن من معالجة طلبك.',
+          isUser: false,
+          timestamp: new Date()
         }
+        setMessages(prev => [...prev, botResponse])
+      } else {
+        // Error response from server
+        const errorData = await response.json().catch(() => ({}))
+        const botResponse: Message = {
+          id: messages.length + 2,
+          text: errorData.response || 'عذراً، حدث خطأ في الاتصال. حاول مرة أخرى.',
+          isUser: false,
+          timestamp: new Date()
+        }
+        setMessages(prev => [...prev, botResponse])
       }
-
-      // Production mode or API fallback - use intelligent demo responses
-      const botResponse: Message = {
-        id: messages.length + 2,
-        text: getIntelligentResponse(messageText),
-        isUser: false,
-        timestamp: new Date()
-      }
-      
-      setMessages(prev => [...prev, botResponse])
     } catch (error) {
       console.error('Error sending message:', error)
       
-      // Fallback to demo response
+      // Network or other error
       const botResponse: Message = {
         id: messages.length + 2,
-        text: getIntelligentResponse(messageText),
+        text: 'عذراً، حدث خطأ في الاتصال. تأكد من اتصالك بالإنترنت وحاول مرة أخرى.',
         isUser: false,
         timestamp: new Date()
       }
@@ -115,70 +108,6 @@ export default function ChatbotDemo() {
     } finally {
       setIsTyping(false)
     }
-  }
-
-  // Intelligent response function for demo mode
-  const getIntelligentResponse = (message: string): string => {
-    const msg = message.toLowerCase()
-    
-    // Food orders
-    if (msg.includes('كفتة') || msg.includes('كباب')) {
-      return 'ممتاز! كده أوردرك اتسجل: كيلو كفتة + شوية رز أبيض. محتاج عنوانك للتوصيل وهيوصلك في خلال 30 دقيقة. الحساب 45 جنيه.'
-    }
-    
-    if (msg.includes('ملوخية') || msg.includes('متوفرة')) {
-      return 'الملوخية متوفرة النهاردة طازة! الطبق بـ 45 جنيه مع الفراخ، وبـ 35 جنيه لوحدها. تحب تطلب كام طبق؟'
-    }
-    
-    if (msg.includes('أسعار') || msg.includes('سعر') || msg.includes('مشويات')) {
-      return 'أسعار المشويات كلها: الكباب بـ 25 جنيه، الكفتة بـ 20 جنيه، الطاووق بـ 30 جنيه، الكبدة بـ 18 جنيه. كله طازة ومشوي على الفحم!'
-    }
-    
-    if (msg.includes('توصيل') || msg.includes('ديليفري')) {
-      return 'التوصيل لحد 5 كيلو مجاني، وأكتر من كده بـ 10 جنيه. ومتاح من 11 الصبح لحد 12 بالليل. محتاج عنوانك؟'
-    }
-    
-    if (msg.includes('فراخ') || msg.includes('دجاج')) {
-      return 'الفراخ المحمرة متوفرة والطبق بـ 35 جنيه مع الرز والسلطة. الفراخ المشوية بـ 40 جنيه. محتاج كام طبق؟'
-    }
-    
-    if (msg.includes('بامية') || msg.includes('خضار')) {
-      return 'عفواً، البامية خلصت النهاردة بس هيبقى متوفر بكرة إن شاء الله. عندنا ملوخية وبازلا متوفرين. إيه رأيك؟'
-    }
-    
-    if (msg.includes('مشروب') || msg.includes('عصير') || msg.includes('شاي')) {
-      return 'المشروبات متوفرة: عصير طازة (برتقال، مانجو، جوافة) بـ 15 جنيه، الشاي والقهوة بـ 8 جنيه، المياه بـ 5 جنيه.'
-    }
-    
-    if (msg.includes('حلو') || msg.includes('حلويات') || msg.includes('تحلية')) {
-      return 'الحلويات النهاردة: أم علي بـ 20 جنيه، مهلبية بـ 15 جنيه، كنافة بـ 25 جنيه. كله طازة ومحضر في البيت!'
-    }
-    
-    if (msg.includes('سلطة') || msg.includes('مقبلات')) {
-      return 'المقبلات والسلطات: سلطة خضرا بـ 12 جنيه، سلطة طحينة بـ 10 جنيه، بابا غنوج بـ 15 جنيه، حمص بـ 12 جنيه.'
-    }
-    
-    if (msg.includes('وقت') || msg.includes('متى') || msg.includes('كام دقيقة')) {
-      return 'أوردرك هيكون جاهز في خلال 20-30 دقيقة والتوصيل خلال 45 دقيقة. هبعتلك رسالة واتساب لما يبقى في الطريق.'
-    }
-    
-    if (msg.includes('شكرا') || msg.includes('متشكر')) {
-      return 'العفو يا فندم! أنا هنا في أي وقت لخدمتك. نتمنى تكون استمتعت بالأكل ونراك قريب تاني! 😊'
-    }
-    
-    if (msg.includes('إلغاء') || msg.includes('مش عايز')) {
-      return 'ماشي، تم إلغاء الأوردر. لو غيرت رأيك في أي وقت، كلمني وأنا جاهز أساعدك!'
-    }
-    
-    // Default responses for general queries
-    const defaultResponses = [
-      'أهلاً بك في مطعم الأصالة! إيه اللي نقدر نجيبهولك النهاردة؟ عندنا مشويات طازة ومأكولات شرقية لذيذة!',
-      'مرحباً! أنا مُجيب وجاهز أخدملك. عايز تشوف المنيو ولا عندك حاجة معينة في بالك؟',
-      'أهلاً وسهلاً! عندنا أطباق مختلفة ولذيذة. قولي عايز إيه وأنا هقولك كل التفاصيل والأسعار.',
-      'حياك الله! المطعم شغال دلوقتي والأكل طازة. إيه اللي تحب تطلبه؟'
-    ]
-    
-    return defaultResponses[Math.floor(Math.random() * defaultResponses.length)]
   }
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
