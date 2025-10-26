@@ -9,39 +9,38 @@ export default function HeroSection() {
   }
 
   return (
-    <section id="home" className="min-h-screen bg-white flex items-center section-large-padding pt-20">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center space-y-8">
+    <section id="home" className="min-h-screen bg-white flex items-center section-large-padding pt-24 md:pt-20">
+      <div className="max-w-7xl mx-auto w-full">
+        <div className="text-center space-y-6 md:space-y-8">
           {/* Badge */}
           <motion.div 
-            className="inline-flex items-center px-6 py-3 bg-brand-orange/10 rounded-full border border-brand-orange/20 backdrop-blur-sm"
+            className="inline-flex items-center px-4 md:px-6 py-2 md:py-3 bg-brand-orange/10 rounded-full border border-brand-orange/20 backdrop-blur-sm"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            style={{ marginTop: '1rem' }}
           >
-            <Sparkles className="w-5 h-5 text-brand-orange mr-3" />
-            <span className="text-brand-orange font-semibold text-sm">خصيصاً للمطاعم والكافيهات المصرية</span>
+            <Sparkles className="w-4 md:w-5 h-4 md:h-5 text-brand-orange mr-2 md:mr-3" />
+            <span className="text-brand-orange font-semibold text-xs md:text-sm">خصيصاً للمطاعم والكافيهات المصرية</span>
           </motion.div>
 
           {/* Main Heading */}
           <motion.div
-            className="space-y-6"
+            className="space-y-4 md:space-y-6"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            <h1 className="text-6xl lg:text-7xl font-bold text-gray-900 arabic-text" style={{ fontFamily: 'Cairo, Tajawal, system-ui, sans-serif', lineHeight: '1.6', marginBottom: '2rem' }}>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 arabic-text leading-tight" style={{ fontFamily: 'Cairo, Tajawal, system-ui, sans-serif', lineHeight: '1.4' }}>
               مساعدك الذكي{' '}
-              <span className="block" style={{ marginTop: '1rem' }}>
+              <span className="block mt-2">
                 <span className="gradient-text">وصل أخيراً</span>
               </span>
-              <span className="block text-4xl lg:text-5xl font-semibold" style={{ marginTop: '1.5rem', lineHeight: '1.8' }}>
+              <span className="block text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-semibold mt-4 leading-relaxed">
                 حوّل رسايل العملاء لأوردرات.. أوتوماتيك
               </span>
             </h1>
             
-            <p className="text-xl lg:text-2xl text-gray-600 max-w-4xl mx-auto arabic-text" style={{ fontFamily: 'Cairo, system-ui, sans-serif', lineHeight: '2.5', marginBottom: '2rem' }}>
+            <p className="text-lg sm:text-xl lg:text-2xl text-gray-600 max-w-4xl mx-auto arabic-text px-4" style={{ fontFamily: 'Cairo, system-ui, sans-serif', lineHeight: '2.2' }}>
               ماتشيلش هم الأوردرات تاني. <span className="text-brand-orange font-semibold">"مُجيب"</span> هيرد على العملاء ويسجل الأوردرات بدالك، 
               حتى لو كانوا بيتكلموا باللهجة المصرية العادية.
               <br /><br />
@@ -51,27 +50,28 @@ export default function HeroSection() {
 
           {/* CTA Buttons */}
           <motion.div 
-            className="flex flex-col sm:flex-row gap-6 justify-center items-center"
+            className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center px-4"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
           >
             <motion.button 
               onClick={scrollToDemo}
-              className="btn-primary btn-arabic text-lg px-8 py-4 group"
+              className="btn-primary btn-arabic text-base md:text-lg px-6 md:px-8 py-3 md:py-4 group w-full sm:w-auto min-h-[52px] touch-target"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               style={{ fontFamily: 'Cairo, system-ui, sans-serif' }}
             >
-              <Play className="w-6 h-6 mr-3" />
+              <Play className="w-5 md:w-6 h-5 md:h-6 mr-2 md:mr-3" />
               جرب مُجيب دلوقتي
-              <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-5 md:w-6 h-5 md:h-6 ml-2 md:ml-3 group-hover:translate-x-1 transition-transform" />
             </motion.button>
             
             <motion.button 
-              className="btn-outline btn-arabic text-lg px-8 py-4"
+              className="btn-outline btn-arabic text-base md:text-lg px-6 md:px-8 py-3 md:py-4 w-full sm:w-auto min-h-[52px] touch-target"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              style={{ fontFamily: 'Cairo, system-ui, sans-serif' }}
             >
               اعرف إزاي يشتغل
             </motion.button>
@@ -79,7 +79,7 @@ export default function HeroSection() {
 
           {/* Stats Preview */}
           <motion.div 
-            className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto pt-16"
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-4xl mx-auto pt-12 md:pt-16 px-4"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.7 }}
@@ -92,13 +92,14 @@ export default function HeroSection() {
             ].map((stat, index) => (
               <motion.div
                 key={index}
-                className="text-center space-y-2"
+                className="text-center space-y-2 p-4 rounded-2xl bg-gray-50/50 hover:bg-gray-50 transition-all duration-300"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
+                whileHover={{ scale: 1.05 }}
               >
-                <div className="text-4xl font-bold gradient-text arabic-number" style={{ fontFamily: 'Cairo, system-ui, sans-serif' }}>{stat.number}</div>
-                <div className="text-gray-600 font-medium arabic-text" style={{ fontFamily: 'Cairo, system-ui, sans-serif' }}>{stat.label}</div>
+                <div className="text-2xl md:text-4xl font-bold gradient-text arabic-number" style={{ fontFamily: 'Cairo, system-ui, sans-serif' }}>{stat.number}</div>
+                <div className="text-gray-600 font-medium arabic-text text-sm md:text-base" style={{ fontFamily: 'Cairo, system-ui, sans-serif' }}>{stat.label}</div>
               </motion.div>
             ))}
           </motion.div>

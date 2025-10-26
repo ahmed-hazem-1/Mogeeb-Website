@@ -13,34 +13,35 @@ export default function CTASection() {
         }} />
       </div>
 
-      <div className="max-w-7xl mx-auto relative">
+      <div className="max-w-7xl mx-auto relative px-4">
         <div className="text-center text-white">
           {/* Main Content */}
           <motion.div
-            className="mb-12"
+            className="mb-8 md:mb-12"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
             <motion.h2 
-              className="text-5xl lg:text-6xl font-bold mb-6"
+              className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 md:mb-6 leading-tight"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
+              style={{ fontFamily: 'Cairo, system-ui, sans-serif' }}
             >
               خلاص قررت؟{' '}
-              <span className="block">يلا نبدأ!</span>
+              <span className="block mt-2">يلا نبدأ!</span>
             </motion.h2>
             
             <motion.p 
-              className="text-xl lg:text-2xl text-white/90 max-w-3xl mx-auto arabic-text"
+              className="text-lg sm:text-xl lg:text-2xl text-white/90 max-w-3xl mx-auto arabic-text px-4"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
-              style={{ fontFamily: 'Cairo, system-ui, sans-serif', lineHeight: '2.4', marginBottom: '2rem' }}
+              style={{ fontFamily: 'Cairo, system-ui, sans-serif', lineHeight: '2.2' }}
             >
               كلمنا دلوقتي ونشوف إزاي مُجيب ممكن يخلي مطعمك أو كافيهك يشتغل بكفاءة أكتر ومن غير صداع الأوردرات والرسايل.
             </motion.p>
@@ -48,7 +49,7 @@ export default function CTASection() {
 
           {/* CTA Buttons */}
           <motion.div 
-            className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16"
+            className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center mb-12 md:mb-16 px-4"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -58,29 +59,31 @@ export default function CTASection() {
               href="https://wa.me/201275012177"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-white text-brand-orange hover:bg-gray-100 font-bold py-4 px-8 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl flex items-center group"
+              className="bg-white text-brand-orange hover:bg-gray-100 font-bold py-3 md:py-4 px-6 md:px-8 rounded-xl text-base md:text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl flex items-center group w-full sm:w-auto min-h-[52px] touch-target"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              style={{ fontFamily: 'Cairo, system-ui, sans-serif' }}
             >
-              <MessageCircle className="w-6 h-6 mr-3" />
+              <MessageCircle className="w-5 md:w-6 h-5 md:h-6 mr-2 md:mr-3" />
               كلمنا على الواتساب
-              <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-5 md:w-6 h-5 md:h-6 ml-2 md:ml-3 group-hover:translate-x-1 transition-transform" />
             </motion.a>
             
             <motion.button 
               onClick={() => document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth' })}
-              className="border-2 border-white text-white hover:bg-white hover:text-brand-orange font-bold py-4 px-8 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 flex items-center group"
+              className="border-2 border-white text-white hover:bg-white hover:text-brand-orange font-bold py-3 md:py-4 px-6 md:px-8 rounded-xl text-base md:text-lg transition-all duration-300 transform hover:scale-105 flex items-center group w-full sm:w-auto min-h-[52px] touch-target"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              style={{ fontFamily: 'Cairo, system-ui, sans-serif' }}
             >
-              <Phone className="w-6 h-6 mr-3" />
+              <Phone className="w-5 md:w-6 h-5 md:h-6 mr-2 md:mr-3" />
               جرب مُجيب دلوقتي
             </motion.button>
           </motion.div>
 
           {/* Stats Grid */}
           <motion.div 
-            className="grid grid-cols-2 md:grid-cols-4 gap-8"
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 px-4"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
@@ -94,14 +97,15 @@ export default function CTASection() {
             ].map((stat, index) => (
               <motion.div
                 key={index}
-                className="text-center"
+                className="text-center p-4 rounded-2xl bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-300"
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
                 viewport={{ once: true }}
+                whileHover={{ scale: 1.05 }}
               >
-                <div className="text-4xl font-bold text-white mb-2">{stat.number}</div>
-                <div className="text-white/80 font-medium">{stat.label}</div>
+                <div className="text-2xl md:text-4xl font-bold text-white mb-1 md:mb-2 arabic-number" style={{ fontFamily: 'Cairo, system-ui, sans-serif' }}>{stat.number}</div>
+                <div className="text-white/80 font-medium text-sm md:text-base arabic-text" style={{ fontFamily: 'Cairo, system-ui, sans-serif' }}>{stat.label}</div>
               </motion.div>
             ))}
           </motion.div>
