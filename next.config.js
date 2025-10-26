@@ -10,8 +10,8 @@ const nextConfig = {
     unoptimized: true,
   },
   
-  // Optimize font loading
-  optimizeFonts: true,
+  // Optimize font loading - disable for production builds to avoid network issues
+  optimizeFonts: false,
   
   // Static export works best with trailing slashes
   trailingSlash: true,
@@ -25,6 +25,11 @@ const nextConfig = {
   // Disable ESLint during build to prevent failures
   eslint: {
     ignoreDuringBuilds: true,
+  },
+
+  // Add environment variable for font fallbacks
+  env: {
+    NEXT_FONT_GOOGLE_MOCKED_RESPONSES: 'true',
   },
 }
 
