@@ -66,17 +66,57 @@ export default function ChatbotDemo() {
     setInputText('')
     setIsTyping(true)
 
-    // Simulate AI response delay
-    setTimeout(() => {
+    try {
+      // Send message to internal API route (proxy to n8n webhook)
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: messageText,
+          timestamp: new Date().toISOString(),
+          userId: 'demo-user',
+          sessionId: `demo-${Date.now()}`
+        })
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        
+        // Always use the response from n8n API
+        const botResponse: Message = {
+          id: messages.length + 2,
+          text: data.response || 'عذراً، لم أتمكن من فهم طلبك. حاول مرة أخرى.',
+          isUser: false,
+          timestamp: new Date()
+        }
+        
+        setMessages(prev => [...prev, botResponse])
+      } else {
+        // Only use fallback if API completely fails
+        const botResponse: Message = {
+          id: messages.length + 2,
+          text: 'عذراً، حدث خطأ في الاتصال. جرب مرة أخرى.',
+          isUser: false,
+          timestamp: new Date()
+        }
+        setMessages(prev => [...prev, botResponse])
+      }
+    } catch (error) {
+      console.error('Error sending message to API:', error)
+      
+      // Only use demo response as last resort when connection completely fails
       const botResponse: Message = {
         id: messages.length + 2,
-        text: demoResponses[Math.floor(Math.random() * demoResponses.length)],
+        text: 'عذراً، حدث خطأ في الاتصال. تأكد من اتصالك بالإنترنت وجرب مرة أخرى.',
         isUser: false,
         timestamp: new Date()
       }
       setMessages(prev => [...prev, botResponse])
+    } finally {
       setIsTyping(false)
-    }, 1500)
+    }
   }
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
