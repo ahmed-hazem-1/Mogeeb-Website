@@ -1,0 +1,25 @@
+{
+  "name": "مُجيب - مساعدك الذكي للمطاعم والكافيهات",
+  "short_name": "مُجيب",
+  "description": "مُجيب هو المساعد الذكي اللي هيخلي مطعمك أو كافيهك يشتغل أوتوماتيك",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#fa7412",
+  "icons": [
+    {
+      "src": "/mogeeb-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "orientation": "portrait",
+  "lang": "ar",
+  "dir": "rtl"
+}

@@ -69,8 +69,8 @@ export default function Navbar() {
             >
               <div className="w-8 h-8 md:w-10 md:h-10 bg-white rounded-full flex items-center justify-center shadow-sm border-2 border-white flex-shrink-0">
                 <Image 
-                  src="/logo.svg"
-                  alt="Mogeeb.ai Logo"
+                  src="/mogeeb-logo.svg"
+                  alt="مُجيب Logo"
                   width={20}
                   height={20}
                   className="w-5 h-5 md:w-6 md:h-6 object-contain"

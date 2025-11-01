@@ -129,8 +129,8 @@ export default function Footer() {
               <div className="flex items-center">
                 <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm border-2 border-white">
                   <Image 
-                    src="/logo.svg"
-                    alt="Mogeeb.ai Logo"
+                    src="/mogeeb-logo.svg"
+                    alt="مُجيب Logo"
                     width={24}
                     height={24}
                     className="w-6 h-6 object-contain"
