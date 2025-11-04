@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { Send, Bot, User, Sparkles } from 'lucide-react'
 
 interface Message {
-  id: number
+  id: bigint
   text: string
   isUser: boolean
   timestamp: Date
@@ -14,7 +14,7 @@ interface Message {
 export default function ChatbotDemo() {
   const [messages, setMessages] = useState<Message[]>([
     {
-      id: 1,
+      id: BigInt(1),
       text: 'أهلاً وسهلاً في مطعم الأصالة! أنا مُجيب، هرد على كل استفساراتك وآخذ أوردرك. إيه اللي تحب تطلبه النهاردة؟',
       isUser: false,
       timestamp: new Date()
@@ -47,7 +47,7 @@ export default function ChatbotDemo() {
     if (!messageText) return
 
     const userMessage: Message = {
-      id: messages.length + 1,
+      id: BigInt(Date.now() * 1000 + Math.floor(Math.random() * 1000)),
       text: messageText,
       isUser: true,
       timestamp: new Date()
@@ -77,7 +77,7 @@ export default function ChatbotDemo() {
       if (response.ok) {
         const data = await response.json()
         const botResponse: Message = {
-          id: messages.length + 2,
+          id: BigInt(Date.now() * 1000 + Math.floor(Math.random() * 1000)),
           text: data.response || 'عذراً، لم أتمكن من معالجة طلبك.',
           isUser: false,
           timestamp: new Date()
@@ -87,7 +87,7 @@ export default function ChatbotDemo() {
         // Error response from server
         const errorData = await response.json().catch(() => ({}))
         const botResponse: Message = {
-          id: messages.length + 2,
+          id: BigInt(Date.now() * 1000 + Math.floor(Math.random() * 1000)),
           text: errorData.response || 'عذراً، حدث خطأ في الاتصال. حاول مرة أخرى.',
           isUser: false,
           timestamp: new Date()
@@ -99,7 +99,7 @@ export default function ChatbotDemo() {
       
       // Network or other error
       const botResponse: Message = {
-        id: messages.length + 2,
+        id: BigInt(Date.now() * 1000 + Math.floor(Math.random() * 1000)),
         text: 'عذراً، حدث خطأ في الاتصال. تأكد من اتصالك بالإنترنت وحاول مرة أخرى.',
         isUser: false,
         timestamp: new Date()
@@ -246,7 +246,7 @@ export default function ChatbotDemo() {
               <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-3 md:p-6 space-y-3 md:space-y-4 bg-gray-50">
                 {messages.map((message) => (
                   <motion.div
-                    key={message.id}
+                    key={message.id.toString()}
                     className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
                     initial={{ opacity: 0, y: 20, scale: 0.9 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}

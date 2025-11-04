@@ -6,7 +6,7 @@ import { Check, Star, Zap, Crown } from 'lucide-react'
 const plans = [
   {
     name: 'الكافيه الصغير',
-    price: '299',
+    price: '499',
     period: ' جنيه/شهر',
     description: 'مثالي للكافيهات والمحلات الصغيرة اللي بدايتها مع مُجيب',
     features: [
@@ -23,7 +23,7 @@ const plans = [
   },
   {
     name: 'المطعم المتوسط',
-    price: '799',
+    price: '999',
     period: ' جنيه/شهر',
     description: 'الحل الأمثل للمطاعم المتوسطة اللي عايزة تشتغل بشكل احترافي',
     features: [
