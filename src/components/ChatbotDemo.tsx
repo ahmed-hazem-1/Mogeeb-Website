@@ -22,6 +22,7 @@ export default function ChatbotDemo() {
   ])
   const [inputText, setInputText] = useState('')
   const [isTyping, setIsTyping] = useState(false)
+  const [isSending, setIsSending] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const messagesContainerRef = useRef<HTMLDivElement>(null)
 
@@ -44,8 +45,9 @@ export default function ChatbotDemo() {
 
   const handleSendMessage = async (text?: string) => {
     const messageText = text || inputText.trim()
-    if (!messageText) return
+    if (!messageText || isSending) return // Prevent empty messages and rapid requests
 
+    setIsSending(true)
     const userMessage: Message = {
       id: BigInt(Date.now() * 1000 + Math.floor(Math.random() * 1000)),
       text: messageText,
@@ -58,55 +60,96 @@ export default function ChatbotDemo() {
     setIsTyping(true)
 
     try {
-      // Use Netlify function for API calls (works in both dev and production)
-      const apiEndpoint = '/.netlify/functions/chat'
-      
-      const response = await fetch(apiEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          message: messageText,
-          timestamp: new Date().toISOString(),
-          userId: 'demo-user',
-          sessionId: Date.now()
-        })
-      })
+      // Retry logic
+      const maxRetries = 3
+      let lastError = null
 
-      if (response.ok) {
-        const data = await response.json()
-        const botResponse: Message = {
-          id: BigInt(Date.now() * 1000 + Math.floor(Math.random() * 1000)),
-          text: data.response || 'عذراً، لم أتمكن من معالجة طلبك.',
-          isUser: false,
-          timestamp: new Date()
+      for (let attempt = 1; attempt <= maxRetries; attempt++) {
+        try {
+          // Use Next.js API route in development, Netlify function in production
+          const apiEndpoint = process.env.NODE_ENV === 'development' 
+            ? '/api/chat'  // Next.js API route for development
+            : '/.netlify/functions/chat'  // Netlify function for production
+          
+          const controller = new AbortController()
+          const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
+          
+          const response = await fetch(apiEndpoint, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              message: messageText,
+              timestamp: new Date().toISOString(),
+              userId: 'demo-user',
+              sessionId: Date.now()
+            }),
+            signal: controller.signal
+          })
+
+          clearTimeout(timeoutId)
+
+          if (response.ok) {
+            const data = await response.json()
+            const botResponse: Message = {
+              id: BigInt(Date.now() * 1000 + Math.floor(Math.random() * 1000)),
+              text: data.response || 'عذراً، لم أتمكن من معالجة طلبك.',
+              isUser: false,
+              timestamp: new Date()
+            }
+            setMessages(prev => [...prev, botResponse])
+            return // Success, exit the retry loop
+          } else {
+            // If it's not the last attempt, continue to retry
+            if (attempt < maxRetries) {
+              await new Promise(resolve => setTimeout(resolve, 1000 * attempt)) // Exponential backoff
+              continue
+            }
+            
+            // Last attempt failed, show error
+            const errorData = await response.json().catch(() => ({}))
+            const botResponse: Message = {
+              id: BigInt(Date.now() * 1000 + Math.floor(Math.random() * 1000)),
+              text: errorData.response || 'عذراً، حدث خطأ في الاتصال. حاول مرة أخرى.',
+              isUser: false,
+              timestamp: new Date()
+            }
+            setMessages(prev => [...prev, botResponse])
+            return
+          }
+        } catch (error) {
+          console.error(`Error sending message (attempt ${attempt}):`, error)
+          lastError = error
+          
+          // If it's not the last attempt, continue to retry
+          if (attempt < maxRetries) {
+            await new Promise(resolve => setTimeout(resolve, 1000 * attempt)) // Exponential backoff
+            continue
+          }
         }
-        setMessages(prev => [...prev, botResponse])
-      } else {
-        // Error response from server
-        const errorData = await response.json().catch(() => ({}))
-        const botResponse: Message = {
-          id: BigInt(Date.now() * 1000 + Math.floor(Math.random() * 1000)),
-          text: errorData.response || 'عذراً، حدث خطأ في الاتصال. حاول مرة أخرى.',
-          isUser: false,
-          timestamp: new Date()
-        }
-        setMessages(prev => [...prev, botResponse])
       }
-    } catch (error) {
-      console.error('Error sending message:', error)
+
+      // All attempts failed, show fallback message
+      const fallbackResponses = [
+        'أهلاً بك! عذراً للانتظار. إيه اللي تحب تطلبه من المطعم؟',
+        'مرحباً! أنا مُجيب وجاهز أساعدك في طلبك. إيه اللي نقدر نعمله لك؟',
+        'أهلاً وسهلاً! نورت المطعم. قول لي عايز تطلب إيه وهاساعدك.',
+        'حياك الله! أنا هنا عشان آخذ أوردرك. إيه اللي تحب تاكله النهاردة؟'
+      ]
       
-      // Network or other error
+      const randomResponse = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)]
+      
       const botResponse: Message = {
         id: BigInt(Date.now() * 1000 + Math.floor(Math.random() * 1000)),
-        text: 'عذراً، حدث خطأ في الاتصال. تأكد من اتصالك بالإنترنت وحاول مرة أخرى.',
+        text: randomResponse,
         isUser: false,
         timestamp: new Date()
       }
       setMessages(prev => [...prev, botResponse])
     } finally {
       setIsTyping(false)
+      setIsSending(false)
     }
   }
 
@@ -312,7 +355,7 @@ export default function ChatbotDemo() {
                   />
                   <motion.button
                     onClick={() => handleSendMessage()}
-                    disabled={!inputText.trim() || isTyping}
+                    disabled={!inputText.trim() || isTyping || isSending}
                     className="gradient-bg p-3 md:p-4 rounded-xl md:rounded-2xl text-white disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transition-all duration-300 touch-target"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}

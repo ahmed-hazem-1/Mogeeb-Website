@@ -7,6 +7,15 @@ export const metadata: Metadata = {
   description: 'مُجيب هو المساعد الذكي اللي هيخلي مطعمك أو كافيهك يشتغل أوتوماتيك. يرد على العملاء، ياخد الأوردرات، ويديك تقارير عن شغلك. بيفهم اللهجة المصرية ويشتغل 24/7 من غير أخطاء.',
   keywords: 'مطاعم، كافيهات، أوردرات، مساعد ذكي، بوت، واتساب، تليجرام، ذكي اصطناعي، مصر',
   manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'مُجيب',
+  },
+  icons: {
+    icon: '/مجيب.ico',
+    apple: '/مجيب.ico',
+  },
 }
 
 export const viewport: Viewport = {
@@ -25,12 +34,7 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl">
       <head>
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="مُجيب" />
-        <link rel="icon" href="/مجيب.ico" type="image/x-icon" />
-        <link rel="apple-touch-icon" href="/مجيب.ico" />
-        <link rel="manifest" href="/manifest.json" />
+        <meta name="mobile-web-app-capable" content="yes" />
         <link
           rel="preconnect"
           href="https://fonts.gstatic.com"

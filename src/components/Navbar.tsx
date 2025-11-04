@@ -74,6 +74,7 @@ export default function Navbar() {
                   width={20}
                   height={20}
                   className="w-5 h-5 md:w-6 md:h-6 object-contain"
+                  priority
                 />
               </div>
               <span className="text-white font-bold text-base md:text-lg english-text leading-none self-center" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>mogeeb.ai</span>
