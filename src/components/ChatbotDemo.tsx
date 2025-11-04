@@ -70,7 +70,7 @@ export default function ChatbotDemo() {
           message: messageText,
           timestamp: new Date().toISOString(),
           userId: 'demo-user',
-          sessionId: `demo-${Date.now()}`
+          sessionId: Date.now()
         })
       })
 
