@@ -72,7 +72,7 @@ export default function ChatbotDemo() {
             : '/.netlify/functions/chat'  // Netlify function for production
           
           const controller = new AbortController()
-          const timeoutId = setTimeout(() => controller.abort(), 15000) // 15 second timeout
+          const timeoutId = setTimeout(() => controller.abort(), 300000) // 5 minute timeout for frontend (very generous)
           
           const response = await fetch(apiEndpoint, {
             method: 'POST',

@@ -12,30 +12,78 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    // Create AbortController for timeout
-    const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), 15000) // 15 second timeout
+    // Create AbortController for initial timeout check
+    const quickController = new AbortController()
+    const quickTimeoutId = setTimeout(() => quickController.abort(), 10000) // 10 second timeout for initial check
     
     // Forward the request to the n8n webhook
     const webhookUrl =  process.env.N8N_WEBHOOK_URL || 'https://mogeeb.shop/webhook/d581640e-383a-4eb1-bbb6-a8ac9be9ad40'
     
-    const response = await fetch(webhookUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'ngrok-skip-browser-warning': 'true',
-        'User-Agent': 'Mogeeb-Website/1.0'
-      },
-      body: JSON.stringify({
-        message: body.message.trim(),
-        timestamp: body.timestamp || new Date().toISOString(),
-        userId: body.userId || 'demo-user',
-        sessionId: body.sessionId || `demo-${Date.now()}`
-      }),
-      signal: controller.signal
-    })
+    let response
+    try {
+      console.log('Making initial quick check to webhook...')
+      response = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true',
+          'User-Agent': 'Mogeeb-Website/1.0'
+        },
+        body: JSON.stringify({
+          message: body.message.trim(),
+          timestamp: body.timestamp || new Date().toISOString(),
+          userId: body.userId || 'demo-user',
+          sessionId: body.sessionId || `demo-${Date.now()}`
+        }),
+        signal: quickController.signal
+      })
 
-    clearTimeout(timeoutId)
+      clearTimeout(quickTimeoutId)
+      console.log('Webhook responded with status:', response.status)
+      
+      // If webhook responds (even if still processing), wait indefinitely for the actual response
+      if (response.status === 200 || response.status === 202) {
+        console.log('Webhook accepted the request, waiting for full response...')
+        
+        // Make another call without timeout to wait for actual response
+        const fullResponse = await fetch(webhookUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'ngrok-skip-browser-warning': 'true',
+            'User-Agent': 'Mogeeb-Website/1.0'
+          },
+          body: JSON.stringify({
+            message: body.message.trim(),
+            timestamp: body.timestamp || new Date().toISOString(),
+            userId: body.userId || 'demo-user',
+            sessionId: body.sessionId || `demo-${Date.now()}`
+          })
+          // No signal = no timeout, wait indefinitely
+        })
+        
+        response = fullResponse // Use the full response for processing
+        console.log('Received full response from webhook')
+      }
+      
+    } catch (error) {
+      clearTimeout(quickTimeoutId)
+      console.log('Quick check failed:', error)
+      
+      if (error instanceof Error && error.name === 'AbortError') {
+        // Webhook didn't respond within 10 seconds
+        return NextResponse.json({
+          response: 'عذراً، الخدمة غير متاحة حالياً. يرجى المحاولة مرة أخرى لاحقاً.',
+          status: 'error'
+        }, { status: 408 })
+      }
+      
+      // Other connection errors
+      return NextResponse.json({
+        error: 'Connection failed',
+        status: 'error'
+      }, { status: 503 })
+    }
 
     if (response.ok) {
       const data = await response.json()
