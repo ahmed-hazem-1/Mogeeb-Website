@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
     const timeoutId = setTimeout(() => controller.abort(), 8000) // 8 second timeout
     
     // Forward the request to the n8n webhook
-    const webhookUrl =  process.env.N8N_WEBHOOK_URL || 'https://mogeeb.shop/webhook-test/d581640e-383a-4eb1-bbb6-a8ac9be9ad40'//|| 'https://biometrical-bettina-benignly.ngrok-free.dev/webhook/10645e4a-c81d-4035-ae43-db5a699cd983'
+    const webhookUrl =  process.env.N8N_WEBHOOK_URL || 'https://mogeeb.shop/webhook/d581640e-383a-4eb1-bbb6-a8ac9be9ad40'
     
     const response = await fetch(webhookUrl, {
       method: 'POST',
