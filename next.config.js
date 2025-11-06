@@ -1,22 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // App Router is now stable in Next.js 14, no experimental flags needed
+  // For Netlify deployment with functions support
+  // Remove static export to allow API routes to work
   
-  // For Netlify compatibility - this tells Next.js to export as static HTML
-  output: 'export',
-
-  // Required for static export - we need to use unoptimized images
+  // Required for Netlify - use unoptimized images
   images: {
     unoptimized: true,
   },
   
-  // Optimize font loading - disable for production builds to avoid network issues
-  optimizeFonts: false,
-  
   // Static export works best with trailing slashes
   trailingSlash: true,
   
-  // Make TypeScript less strict for static export
+  // Make TypeScript less strict during build
   typescript: {
     // Temporarily ignore TypeScript errors during build
     ignoreBuildErrors: true,
