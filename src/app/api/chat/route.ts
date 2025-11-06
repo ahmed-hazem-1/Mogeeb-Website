@@ -19,11 +19,15 @@ export async function POST(request: NextRequest) {
     console.log('=== Chat API Request ===')
     console.log('Webhook URL:', webhookUrl)
     console.log('Message:', body.message)
+    console.log('Session ID:', body.sessionId)
     console.log('Timeout: 60 seconds')
     
     // Make ONE call to the webhook with extended timeout
     const controller = new AbortController()
     const timeoutId = setTimeout(() => controller.abort(), 60000) // 60 second timeout
+    
+    const sessionId = body.sessionId || Date.now().toString()
+    console.log('Using Session ID:', sessionId)
     
     let response
     try {
@@ -39,7 +43,7 @@ export async function POST(request: NextRequest) {
           message: body.message.trim(),
           timestamp: body.timestamp || new Date().toISOString(),
           userId: body.userId || 'demo-user',
-          sessionId: body.sessionId || `demo-${Date.now()}`
+          sessionId: sessionId
         }),
         signal: controller.signal
       })

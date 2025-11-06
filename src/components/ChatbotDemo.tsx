@@ -24,16 +24,15 @@ export default function ChatbotDemo() {
   const [inputText, setInputText] = useState('')
   const [isTyping, setIsTyping] = useState(false)
   const [isSending, setIsSending] = useState(false)
-  const [isListening, setIsListening] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const messagesContainerRef = useRef<HTMLDivElement>(null)
-  const sessionIdRef = useRef<string>(`demo-${Date.now()}`)
+  const sessionIdRef = useRef<bigint>(BigInt(Date.now()))
   const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
   const quickQuestions = [
-    'عايز كيلو كفتة وشوية رز',
-    'الملوخية متوفرة النهاردة؟',
-    'أسعار المشويات إيه؟',
+    'عايز 3 قهوة و 3 تشيز كيك',
+    'القهوة متوفرة النهاردة؟',
+    'أسعار القهوة إيه؟',
     'التوصيل بكام؟'
   ]
 
@@ -47,11 +46,9 @@ export default function ChatbotDemo() {
     scrollToBottom()
   }, [messages])
 
-  // Start listening for incoming messages when component mounts
+  // Remove automatic polling - only listen when user sends a message
+  // This prevents unnecessary requests to N8N
   useEffect(() => {
-    setIsListening(true)
-    startListening()
-
     // Cleanup on unmount
     return () => {
       if (pollingIntervalRef.current) {
@@ -60,6 +57,9 @@ export default function ChatbotDemo() {
     }
   }, [])
 
+  // Polling removed - we now only wait for responses after user sends a message
+  // This prevents sending continuous requests to N8N
+  /*
   const startListening = async () => {
     // Poll for messages every 3 seconds
     pollingIntervalRef.current = setInterval(async () => {
@@ -74,7 +74,7 @@ export default function ChatbotDemo() {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            sessionId: sessionIdRef.current,
+            sessionId: sessionIdRef.current.toString(),
             userId: 'demo-user'
           })
         })
@@ -110,6 +110,7 @@ export default function ChatbotDemo() {
       }
     }, 3000) // Poll every 3 seconds
   }
+  */
 
   const handleSendMessage = async (text?: string) => {
     const messageText = text || inputText.trim()
@@ -140,7 +141,7 @@ export default function ChatbotDemo() {
             : '/.netlify/functions/chat'  // Netlify function for production
           
           const controller = new AbortController()
-          const timeoutId = setTimeout(() => controller.abort(), 300000) // 5 minute timeout for frontend (very generous)
+          const timeoutId = setTimeout(() => controller.abort(), 600000) // 10 minute timeout for frontend (doubled from 5 minutes)
           
           const response = await fetch(apiEndpoint, {
             method: 'POST',
@@ -151,7 +152,7 @@ export default function ChatbotDemo() {
               message: messageText,
               timestamp: new Date().toISOString(),
               userId: 'demo-user',
-              sessionId: sessionIdRef.current
+              sessionId: sessionIdRef.current.toString()
             }),
             signal: controller.signal
           })
@@ -345,13 +346,13 @@ export default function ChatbotDemo() {
                   <div className="flex-1">
                     <h3 className="text-white font-bold text-base md:text-lg english-text">مجيب AI Assistant</h3>
                     <p className="text-white/90 text-xs md:text-sm arabic-text">
-                      {isListening ? 'يستمع للرسائل الواردة...' : 'مساعدك الذكي باللغة العربية'}
+                      جاهز للرد على استفساراتك
                     </p>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <div className={`w-2 h-2 md:w-3 md:h-3 ${isListening ? 'bg-green-400 animate-pulse' : 'bg-yellow-400'} rounded-full`}></div>
+                    <div className="w-2 h-2 md:w-3 md:h-3 bg-green-400 animate-pulse rounded-full"></div>
                     <span className="text-white text-xs md:text-sm font-medium english-text">
-                      {isListening ? 'Listening' : 'Online'}
+                      Online
                     </span>
                   </div>
                 </div>

@@ -85,7 +85,7 @@ exports.handler = async (event, context) => {
           message: message.trim(),
           timestamp: timestamp || new Date().toISOString(),
           userId: userId || 'demo-user',
-          sessionId: sessionId || `demo-${Date.now()}`
+          sessionId: sessionId || Date.now().toString()
         })
       })
       
