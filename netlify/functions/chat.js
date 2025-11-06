@@ -1,40 +1,56 @@
 exports.handler = async (event, context) => {
-  // Only allow POST requests
-  if (event.httpMethod !== 'POST') {
-    return {
-      statusCode: 405,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      },
-      body: JSON.stringify({ error: 'Method Not Allowed' })
-    }
+  // Enable CORS for all requests
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+    'Content-Type': 'application/json'
   }
 
   // Handle preflight requests
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS'
-      },
+      headers,
       body: ''
     }
   }
 
+  // Only allow POST requests
+  if (event.httpMethod !== 'POST') {
+    return {
+      statusCode: 405,
+      headers,
+      body: JSON.stringify({ 
+        error: 'Method Not Allowed',
+        response: 'عذراً، هذه الطريقة غير مسموحة.',
+        status: 'error'
+      })
+    }
+  }
+
   try {
-    const { message, timestamp, userId, sessionId } = JSON.parse(event.body)
+    let body;
+    try {
+      body = JSON.parse(event.body || '{}');
+    } catch (parseError) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({
+          response: 'عذراً، لم أستطع فهم طلبك. حاول مرة أخرى.',
+          status: 'error'
+        })
+      }
+    }
+
+    const { message, timestamp, userId, sessionId } = body;
 
     // Validate input
     if (!message || message.trim().length === 0) {
       return {
         statusCode: 400,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
-        },
+        headers,
         body: JSON.stringify({
           response: 'عذراً، لم أستطع فهم رسالتك. حاول مرة أخرى.',
           status: 'error'
@@ -108,12 +124,7 @@ exports.handler = async (event, context) => {
       
       return {
         statusCode: 200,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Headers': 'Content-Type',
-          'Access-Control-Allow-Methods': 'POST, OPTIONS'
-        },
+        headers,
         body: JSON.stringify({
           response: botResponse,
           status: 'success'
@@ -132,10 +143,7 @@ exports.handler = async (event, context) => {
       
       return {
         statusCode: 200, // Return 200 to show the error message to user
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
-        },
+        headers,
         body: JSON.stringify({
           response: errorMessage,
           status: 'error'
@@ -156,10 +164,7 @@ exports.handler = async (event, context) => {
     
     return {
       statusCode: 200, // Return 200 to show the error message to user
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      },
+      headers,
       body: JSON.stringify({
         response: errorMessage,
         status: 'error'

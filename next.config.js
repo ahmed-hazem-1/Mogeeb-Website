@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // For Netlify deployment with functions support
-  // Remove static export to allow API routes to work
+  // For Netlify static deployment with functions
+  output: 'export',
   
-  // Required for Netlify - use unoptimized images
+  // Required for static export - use unoptimized images
   images: {
     unoptimized: true,
   },
@@ -11,15 +11,13 @@ const nextConfig = {
   // Static export works best with trailing slashes
   trailingSlash: true,
   
-  // Make TypeScript less strict during build
-  typescript: {
-    // Temporarily ignore TypeScript errors during build
-    ignoreBuildErrors: true,
-  },
-
-  // Disable ESLint during build to prevent failures
+  // Disable server-side features for static export
   eslint: {
     ignoreDuringBuilds: true,
+  },
+  
+  typescript: {
+    ignoreBuildErrors: true,
   },
 
   // Add environment variable for font fallbacks

@@ -1,2 +1,5 @@
-# Netlify redirects file
+# API routes to Netlify functions
+/api/chat    /.netlify/functions/chat    200
+
+# SPA fallback
 /*    /index.html   200
