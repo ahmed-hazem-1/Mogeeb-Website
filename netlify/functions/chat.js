@@ -59,7 +59,19 @@ exports.handler = async (event, context) => {
     }
 
     // Forward the request to the n8n webhook with timeout
-    const webhookUrl = process.env.N8N_WEBHOOK_URL || 'https://mogeeb.shop/webhook/d581640e-383a-4eb1-bbb6-a8ac9be9ad40'
+    // Try multiple possible environment variable names
+    const webhookUrl = process.env.N8N_WEBHOOK_URL || 
+                      process.env.WEBHOOK_URL || 
+                      process.env.N8N_WEBHOOK || 
+                      'https://mogeeb.shop/webhook/d581640e-383a-4eb1-bbb6-a8ac9be9ad40'
+    
+    // Debug logging for production
+    console.log('Environment variables check:')
+    console.log('N8N_WEBHOOK_URL from env:', process.env.N8N_WEBHOOK_URL ? 'SET' : 'NOT SET')
+    console.log('WEBHOOK_URL from env:', process.env.WEBHOOK_URL ? 'SET' : 'NOT SET')
+    console.log('Using webhook URL:', webhookUrl)
+    console.log('All env vars with N8N or WEBHOOK:', Object.keys(process.env).filter(key => 
+      key.includes('N8N') || key.includes('WEBHOOK')))
     
     const controller = new AbortController()
     const timeoutId = setTimeout(() => controller.abort(), 8000) // 8 second timeout
@@ -127,7 +139,11 @@ exports.handler = async (event, context) => {
         headers,
         body: JSON.stringify({
           response: botResponse,
-          status: 'success'
+          status: 'success',
+          debug: {
+            webhookUsed: webhookUrl,
+            envVarSet: !!process.env.N8N_WEBHOOK_URL
+          }
         })
       }
     } else {
