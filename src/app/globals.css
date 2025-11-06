@@ -543,3 +543,74 @@ p, span, div {
   outline-offset: 2px;
   border-radius: 4px;
 }
+
+/* Markdown content in chatbot */
+.markdown-content {
+  font-family: 'Cairo', system-ui, sans-serif !important;
+  line-height: 2.0 !important;
+  white-space: pre-wrap !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+}
+
+.markdown-content p {
+  margin-bottom: 0.75rem !important;
+  line-height: 2.0 !important;
+}
+
+.markdown-content ul,
+.markdown-content ol {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.75rem !important;
+  padding-right: 1.5rem !important;
+}
+
+.markdown-content li {
+  margin-bottom: 0.5rem !important;
+  line-height: 1.8 !important;
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3 {
+  margin-top: 1rem !important;
+  margin-bottom: 0.75rem !important;
+  line-height: 1.4 !important;
+}
+
+.markdown-content blockquote {
+  margin-top: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
+  padding: 0.75rem !important;
+}
+
+.markdown-content code {
+  font-size: 0.875rem !important;
+  line-height: 1.6 !important;
+}
+
+.markdown-content pre {
+  margin-top: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
+  padding: 1rem !important;
+  line-height: 1.6 !important;
+}
+
+.markdown-content strong {
+  font-weight: 700 !important;
+  color: #111827 !important;
+}
+
+.markdown-content > div {
+  margin-bottom: 0.5rem !important;
+}
+
+/* Menu item styling in markdown */
+.markdown-content .flex {
+  padding: 0.5rem 0 !important;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.markdown-content .flex:last-child {
+  border-bottom: none;
+}

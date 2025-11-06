@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { Send, Bot, User, Sparkles } from 'lucide-react'
+import MarkdownRenderer from './MarkdownRenderer'
 
 interface Message {
   id: bigint
@@ -23,8 +24,11 @@ export default function ChatbotDemo() {
   const [inputText, setInputText] = useState('')
   const [isTyping, setIsTyping] = useState(false)
   const [isSending, setIsSending] = useState(false)
+  const [isListening, setIsListening] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const messagesContainerRef = useRef<HTMLDivElement>(null)
+  const sessionIdRef = useRef<string>(`demo-${Date.now()}`)
+  const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
   const quickQuestions = [
     'عايز كيلو كفتة وشوية رز',
@@ -42,6 +46,70 @@ export default function ChatbotDemo() {
   useEffect(() => {
     scrollToBottom()
   }, [messages])
+
+  // Start listening for incoming messages when component mounts
+  useEffect(() => {
+    setIsListening(true)
+    startListening()
+
+    // Cleanup on unmount
+    return () => {
+      if (pollingIntervalRef.current) {
+        clearInterval(pollingIntervalRef.current)
+      }
+    }
+  }, [])
+
+  const startListening = async () => {
+    // Poll for messages every 3 seconds
+    pollingIntervalRef.current = setInterval(async () => {
+      try {
+        const apiEndpoint = process.env.NODE_ENV === 'development' 
+          ? '/api/chat/listen'
+          : '/.netlify/functions/chat-listen'
+        
+        const response = await fetch(apiEndpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            sessionId: sessionIdRef.current,
+            userId: 'demo-user'
+          })
+        })
+
+        if (response.ok) {
+          const data = await response.json()
+          
+          // If we have a new message from the webhook
+          if (data.hasMessage && data.message) {
+            const botResponse: Message = {
+              id: BigInt(Date.now() * 1000 + Math.floor(Math.random() * 1000)),
+              text: data.message,
+              isUser: false,
+              timestamp: new Date()
+            }
+            
+            setMessages(prev => {
+              // Check if this message already exists (to avoid duplicates)
+              const exists = prev.some(msg => 
+                !msg.isUser && 
+                msg.text === data.message &&
+                Math.abs(msg.timestamp.getTime() - new Date().getTime()) < 10000 // within 10 seconds
+              )
+              
+              if (exists) return prev
+              return [...prev, botResponse]
+            })
+          }
+        }
+      } catch (error) {
+        console.error('Error polling for messages:', error)
+        // Continue polling even on error
+      }
+    }, 3000) // Poll every 3 seconds
+  }
 
   const handleSendMessage = async (text?: string) => {
     const messageText = text || inputText.trim()
@@ -83,7 +151,7 @@ export default function ChatbotDemo() {
               message: messageText,
               timestamp: new Date().toISOString(),
               userId: 'demo-user',
-              sessionId: Date.now()
+              sessionId: sessionIdRef.current
             }),
             signal: controller.signal
           })
@@ -276,11 +344,15 @@ export default function ChatbotDemo() {
                   </div>
                   <div className="flex-1">
                     <h3 className="text-white font-bold text-base md:text-lg english-text">مجيب AI Assistant</h3>
-                    <p className="text-white/90 text-xs md:text-sm arabic-text">مساعدك الذكي باللغة العربية</p>
+                    <p className="text-white/90 text-xs md:text-sm arabic-text">
+                      {isListening ? 'يستمع للرسائل الواردة...' : 'مساعدك الذكي باللغة العربية'}
+                    </p>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 md:w-3 md:h-3 bg-green-400 rounded-full animate-pulse"></div>
-                    <span className="text-white text-xs md:text-sm font-medium english-text">Online</span>
+                    <div className={`w-2 h-2 md:w-3 md:h-3 ${isListening ? 'bg-green-400 animate-pulse' : 'bg-yellow-400'} rounded-full`}></div>
+                    <span className="text-white text-xs md:text-sm font-medium english-text">
+                      {isListening ? 'Listening' : 'Online'}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -309,9 +381,15 @@ export default function ChatbotDemo() {
                           ? 'gradient-bg text-white' 
                           : 'bg-white text-gray-800 border border-gray-200'
                       }`}>
-                        <p className="text-sm md:text-sm leading-relaxed arabic-text" dir={message.isUser ? 'ltr' : 'rtl'} style={{ fontFamily: 'Cairo, system-ui, sans-serif' }}>
-                          {message.text}
-                        </p>
+                        {message.isUser ? (
+                          <p className="text-sm md:text-sm leading-relaxed arabic-text" dir="ltr" style={{ fontFamily: 'Cairo, system-ui, sans-serif' }}>
+                            {message.text}
+                          </p>
+                        ) : (
+                          <div dir="rtl" style={{ fontFamily: 'Cairo, system-ui, sans-serif' }} className="text-sm md:text-sm">
+                            <MarkdownRenderer content={message.text} className="arabic-text prose prose-sm max-w-none" />
+                          </div>
+                        )}
                       </div>
                     </div>
                   </motion.div>

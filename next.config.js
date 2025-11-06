@@ -1,15 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // For Netlify static deployment with functions
-  output: 'export',
+  // Only use static export for production builds (Netlify)
+  ...(process.env.NODE_ENV === 'production' && {
+    output: 'export',
+    trailingSlash: true,
+  }),
   
   // Required for static export - use unoptimized images
   images: {
     unoptimized: true,
   },
-  
-  // Static export works best with trailing slashes
-  trailingSlash: true,
   
   // Disable server-side features for static export
   eslint: {

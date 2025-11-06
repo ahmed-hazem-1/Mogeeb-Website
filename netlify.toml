@@ -18,3 +18,7 @@
 # Function configuration
 [functions]
   directory = "netlify/functions"
+
+# Background function configuration (allows up to 15 minutes)
+[functions.chat]
+  timeout = 900

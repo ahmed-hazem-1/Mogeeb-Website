@@ -58,28 +58,22 @@ exports.handler = async (event, context) => {
       }
     }
 
-    // Forward the request to the n8n webhook with timeout
-    // Try multiple possible environment variable names
+    // Forward the request to the n8n webhook
+    // Production URL (uses /webhook/ not /webhook-test/)
     const webhookUrl = process.env.N8N_WEBHOOK_URL || 
-                      process.env.WEBHOOK_URL || 
-                      process.env.N8N_WEBHOOK || 
                       'https://mogeeb.shop/webhook/d581640e-383a-4eb1-bbb6-a8ac9be9ad40'
     
     // Debug logging for production
-    console.log('Environment variables check:')
+    console.log('=== Chat Function Request ===')
     console.log('N8N_WEBHOOK_URL from env:', process.env.N8N_WEBHOOK_URL ? 'SET' : 'NOT SET')
-    console.log('WEBHOOK_URL from env:', process.env.WEBHOOK_URL ? 'SET' : 'NOT SET')
     console.log('Using webhook URL:', webhookUrl)
-    console.log('All env vars with N8N or WEBHOOK:', Object.keys(process.env).filter(key => 
-      key.includes('N8N') || key.includes('WEBHOOK')))
-    
-    // Step 1: Quick check (10 seconds) to see if webhook is reachable
-    const quickController = new AbortController()
-    const quickTimeoutId = setTimeout(() => quickController.abort(), 10000) // 10 second timeout for initial check
+    console.log('Note: Netlify timeout is 26 seconds (Pro) or 10 seconds (Free)')
     
     let response
     try {
-      console.log('Making initial quick check to webhook...')
+      console.log('Making request to webhook...')
+      
+      // Make ONE call with reasonable timeout (Netlify gives us 10-26 seconds)
       response = await fetch(webhookUrl, {
         method: 'POST',
         headers: {
@@ -92,60 +86,32 @@ exports.handler = async (event, context) => {
           timestamp: timestamp || new Date().toISOString(),
           userId: userId || 'demo-user',
           sessionId: sessionId || `demo-${Date.now()}`
-        }),
-        signal: quickController.signal
+        })
       })
       
-      clearTimeout(quickTimeoutId)
-      console.log('Webhook responded with status:', response.status)
-      
-      // If webhook responds (even if still processing), wait indefinitely for the actual response
-      if (response.status === 200 || response.status === 202) {
-        console.log('Webhook accepted the request, waiting for full response...')
-        
-        // Step 2: If webhook accepted the request, make another call without timeout
-        const fullResponse = await fetch(webhookUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'ngrok-skip-browser-warning': 'true',
-            'User-Agent': 'Mogeeb-Website/1.0'
-          },
-          body: JSON.stringify({
-            message: message.trim(),
-            timestamp: timestamp || new Date().toISOString(),
-            userId: userId || 'demo-user',
-            sessionId: sessionId || `demo-${Date.now()}`
-          })
-          // No signal = no timeout, wait indefinitely
-        })
-        
-        response = fullResponse // Use the full response for processing
-        console.log('Received full response from webhook')
-      }
+      console.log('Received response from webhook with status:', response.status)
       
     } catch (error) {
-      clearTimeout(quickTimeoutId)
-      console.log('Quick check failed:', error.name)
+      console.log('Request to webhook failed:', error.name, error.message)
       
       if (error.name === 'AbortError') {
-        // Webhook didn't respond within 10 seconds
+        // Request timed out
         return {
           statusCode: 200,
           headers,
           body: JSON.stringify({
-            response: 'عذراً، الخدمة غير متاحة حالياً. يرجى المحاولة مرة أخرى لاحقاً.',
+            response: 'عذراً، استغرق الرد وقتاً أطول من المتوقع. حاول مرة أخرى.',
             status: 'error'
           })
         }
       }
       
-      // Other connection errors
+      // Other connection errors (webhook down, network issues, etc.)
       return {
         statusCode: 200,
         headers,
         body: JSON.stringify({
-          response: 'عذراً، حدث خطأ في الاتصال. تأكد من اتصالك بالإنترنت وحاول مرة أخرى.',
+          response: 'عذراً، الخدمة غير متاحة حالياً. يرجى المحاولة مرة أخرى لاحقاً.',
           status: 'error'
         })
       }
@@ -154,61 +120,45 @@ exports.handler = async (event, context) => {
     if (response.ok) {
       const data = await response.json()
       
-      // Handle n8n response structure with better parsing
-      let botResponse = 'عذراً، حدث خطأ في معالجة طلبك.'
+      // Add detailed logging for debugging
+      console.log('Raw N8N response:', JSON.stringify(data, null, 2))
       
-      try {
-        if (Array.isArray(data) && data.length > 0) {
-          // Handle array response from n8n
-          const firstItem = data[0]
-          if (firstItem.text) {
-            botResponse = firstItem.text
-          } else if (firstItem.output && firstItem.output.tool_calls && firstItem.output.tool_calls.length > 0) {
-            const toolCall = firstItem.output.tool_calls[0]
-            if (toolCall.args && toolCall.args.text) {
-              botResponse = toolCall.args.text
-            }
-          } else if (firstItem.response) {
-            botResponse = firstItem.response
-          } else if (firstItem.message) {
-            botResponse = firstItem.message
-          }
-        } else if (data.text) {
-          // Handle direct text response
-          botResponse = data.text
-        } else if (data.response) {
-          // Handle response field
-          botResponse = data.response
-        } else if (data.message) {
-          // Handle message field
-          botResponse = data.message
-        } else if (typeof data === 'string') {
-          // Handle string response
-          botResponse = data
-        }
-      } catch (parseError) {
-        console.error('Error parsing n8n response:', parseError)
-        botResponse = 'أهلاً بك! أنا مُجيب وجاهز لأساعدك. إيه اللي تحب تطلبه؟'
+      // Handle n8n response structure - SIMPLIFIED
+      let botResponse = extractResponse(data)
+      
+      if (!botResponse) {
+        console.warn('Could not extract response from n8n data')
+        botResponse = 'أهلاً بك! عذراً، كان هناك خطأ في المعالجة. حاول مرة أخرى.'
       }
+      
+      console.log('Extracted bot response:', botResponse)
       
       return {
         statusCode: 200,
         headers,
         body: JSON.stringify({
           response: botResponse,
-          status: 'success',
-          debug: {
-            webhookUsed: webhookUrl,
-            envVarSet: !!process.env.N8N_WEBHOOK_URL
-          }
+          status: 'success'
         })
       }
     } else {
+      // Response not OK - log the actual response body for debugging
+      let responseBody = ''
+      try {
+        responseBody = await response.text()
+        console.error('N8N error response body:', responseBody)
+      } catch (e) {
+        console.error('Could not read error response body')
+      }
+      
       console.error('N8N webhook error:', response.status, response.statusText)
       
       // Return a meaningful error based on status
       let errorMessage = 'عذراً، حدث خطأ في الاتصال. حاول مرة أخرى.'
-      if (response.status === 429) {
+      if (response.status === 404) {
+        errorMessage = 'عذراً، خدمة الدردشة غير متاحة حالياً. يرجى التواصل مع الدعم الفني.'
+        console.error('Webhook endpoint not found - check N8N configuration')
+      } else if (response.status === 429) {
         errorMessage = 'عذراً، كثرة الطلبات. انتظر قليلاً ثم حاول مرة أخرى.'
       } else if (response.status >= 500) {
         errorMessage = 'عذراً، الخدمة غير متاحة حالياً. حاول مرة أخرى لاحقاً.'
@@ -244,4 +194,42 @@ exports.handler = async (event, context) => {
       })
     }
   }
+}
+
+/**
+ * Extract text response from various n8n response formats
+ */
+function extractResponse(data) {
+  // Handle array response from n8n
+  if (Array.isArray(data) && data.length > 0) {
+    const firstItem = data[0]
+    console.log('Handling array response, first item:', JSON.stringify(firstItem, null, 2))
+    
+    // Try different fields in order of preference
+    if (firstItem.message) return firstItem.message
+    if (firstItem.text) return firstItem.text
+    if (firstItem.response) return firstItem.response
+    if (firstItem.output?.tool_calls?.[0]?.args?.text) {
+      return firstItem.output.tool_calls[0].args.text
+    }
+    if (firstItem.output) return JSON.stringify(firstItem.output)
+  }
+  
+  // Handle direct object response
+  if (typeof data === 'object' && data !== null) {
+    if (data.message) return data.message
+    if (data.text) return data.text
+    if (data.response) return data.response
+    if (data.output) {
+      if (typeof data.output === 'string') return data.output
+      if (data.output.message) return data.output.message
+      if (data.output.text) return data.output.text
+    }
+  }
+  
+  // Handle string response
+  if (typeof data === 'string') return data
+  
+  // No response found
+  return ''
 }
