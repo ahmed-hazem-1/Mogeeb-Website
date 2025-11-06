@@ -74,7 +74,7 @@ exports.handler = async (event, context) => {
       key.includes('N8N') || key.includes('WEBHOOK')))
     
     const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), 8000) // 8 second timeout
+    const timeoutId = setTimeout(() => controller.abort(), 15000) // 15 second timeout
     
     const response = await fetch(webhookUrl, {
       method: 'POST',
