@@ -44,7 +44,7 @@ exports.handler = async (event, context) => {
       }
     }
 
-    const { message, timestamp, userId, sessionId } = body;
+    const { message, timestamp, userId, sessionId, chatId } = body;
 
     // Validate input
     if (!message || message.trim().length === 0) {
@@ -67,6 +67,9 @@ exports.handler = async (event, context) => {
     console.log('=== Chat Function Request ===')
     console.log('N8N_WEBHOOK_URL from env:', process.env.N8N_WEBHOOK_URL ? 'SET' : 'NOT SET')
     console.log('Using webhook URL:', webhookUrl)
+    console.log('Session ID:', sessionId)
+    console.log('Chat ID:', chatId)
+    console.log('Types - Session ID:', typeof sessionId, ', Chat ID:', typeof chatId)
     console.log('Note: Netlify timeout is 26 seconds (Pro) or 10 seconds (Free)')
     
     let response
@@ -85,7 +88,8 @@ exports.handler = async (event, context) => {
           message: message.trim(),
           timestamp: timestamp || new Date().toISOString(),
           userId: userId || 'demo-user',
-          sessionId: sessionId || Date.now().toString()
+          sessionId: sessionId || Date.now().toString(),
+          chatId: chatId || Date.now().toString()
         })
       })
       

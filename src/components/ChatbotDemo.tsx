@@ -26,11 +26,33 @@ export default function ChatbotDemo() {
   const [isSending, setIsSending] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const messagesContainerRef = useRef<HTMLDivElement>(null)
-  const sessionIdRef = useRef<bigint>(BigInt(Date.now()))
+  const sessionIdRef = useRef<bigint>(BigInt(0))
+  const chatIdRef = useRef<bigint>(BigInt(0))
   const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
+  // Initialize chatId and sessionId
+  useEffect(() => {
+    // Generate or retrieve persistent chatId from localStorage
+    const storedChatId = localStorage.getItem('mogeeb_chatId')
+    let chatId: bigint
+    
+    if (storedChatId) {
+      chatId = BigInt(storedChatId)
+    } else {
+      chatId = BigInt(Date.now())
+      localStorage.setItem('mogeeb_chatId', chatId.toString())
+    }
+    chatIdRef.current = chatId
+
+    // Generate new sessionId on every page load/refresh
+    const sessionId = BigInt(Date.now())
+    sessionIdRef.current = sessionId
+
+    console.log('Chat initialized:', { chatId: chatId.toString(), sessionId: sessionId.toString() })
+  }, [])
+
   const quickQuestions = [
-    'عايز 3 قهوة و 3 تشيز كيك',
+    'عايز 3 قهوة تركي سادة و 3 تشيز كيك',
     'القهوة متوفرة النهاردة؟',
     'أسعار القهوة إيه؟',
     'التوصيل بكام؟'
@@ -152,7 +174,8 @@ export default function ChatbotDemo() {
               message: messageText,
               timestamp: new Date().toISOString(),
               userId: 'demo-user',
-              sessionId: sessionIdRef.current.toString()
+              sessionId: sessionIdRef.current.toString(),
+              chatId: chatIdRef.current.toString()
             }),
             signal: controller.signal
           })

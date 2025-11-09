@@ -27,7 +27,11 @@ export async function POST(request: NextRequest) {
     const timeoutId = setTimeout(() => controller.abort(), 60000) // 60 second timeout
     
     const sessionId = body.sessionId || Date.now().toString()
+    const chatId = body.chatId || Date.now().toString()
+    
     console.log('Using Session ID:', sessionId)
+    console.log('Using Chat ID:', chatId)
+    console.log('Types - Session ID:', typeof sessionId, ', Chat ID:', typeof chatId)
     
     let response
     try {
@@ -43,7 +47,8 @@ export async function POST(request: NextRequest) {
           message: body.message.trim(),
           timestamp: body.timestamp || new Date().toISOString(),
           userId: body.userId || 'demo-user',
-          sessionId: sessionId
+          sessionId: sessionId,
+          chatId: chatId
         }),
         signal: controller.signal
       })
