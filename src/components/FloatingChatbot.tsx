@@ -210,9 +210,10 @@ export default function FloatingChatbot() {
   }
 
   const quickQuestions = [
-    'مين أنتم؟',
-    'كيف بتشتغلوا؟',
-    'التوصيل متاح فين؟'
+    'إزاي مُجيب يساعد مطعمي؟',
+    'إنهي الخطوات عشان أبدأ؟',
+    'كام السعر؟',
+    'هل يشتغل مع الواتس والتليجرام؟'
   ]
 
   const handleQuickQuestion = (question: string) => {
