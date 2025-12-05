@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { inter, cairo } from './fonts'
 import './globals.css'
+import FloatingChatbot from '@/components/FloatingChatbot'
 
 export const metadata: Metadata = {
   title: 'مُجيب - مساعدك الذكي للمطاعم والكافيهات',
@@ -45,6 +46,7 @@ export default function RootLayout({
         <div className="min-h-screen bg-white">
           {children}
         </div>
+        <FloatingChatbot />
       </body>
     </html>
   )
